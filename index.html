@@ -6,32 +6,27 @@
 <title>Shakil Ahmed - Portfolio</title>
 <style>
 /* ---------- RESET ---------- */
-* {
-  margin: 0; padding: 0; box-sizing: border-box;
-}
+* { margin:0; padding:0; box-sizing:border-box; }
 body {
   font-family: 'Poppins', sans-serif;
-  background: radial-gradient(circle at top left, #050505, #0f0f0f);
+  background: #0a0a0a;
   color: #fff;
   overflow-x: hidden;
   cursor: none;
+  scroll-behavior: smooth;
 }
 
 /* ---------- PRELOADER ---------- */
 #preloader {
-  position: fixed;
-  inset: 0;
-  background: #0f0f0f;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  position: fixed; inset:0;
+  background: #0a0a0a;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
   gap: 1rem;
   z-index: 9999;
 }
 .loader-text {
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.5rem; font-weight: 600;
   background: linear-gradient(90deg, #0ff, #f0f, #0ff);
   background-size: 200%;
   -webkit-background-clip: text;
@@ -40,15 +35,12 @@ body {
   white-space: nowrap;
 }
 .progress-bar {
-  width: 300px;
-  height: 6px;
-  background: #222;
-  border-radius: 3px;
+  width: 300px; height: 6px;
+  background: #222; border-radius: 3px;
   overflow: hidden;
 }
 .progress-fill {
-  width: 0;
-  height: 100%;
+  width: 0; height: 100%;
   background: linear-gradient(90deg, #00ffcc, #ff00ff);
   animation: fillBar 3.5s ease forwards;
   border-radius: 3px;
@@ -63,104 +55,87 @@ body {
 
 /* ---------- NAVBAR ---------- */
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  position: sticky;
-  top: 0;
+  display:flex; justify-content: space-between; align-items:center;
+  padding:1rem 2rem; position: sticky; top:0;
   backdrop-filter: blur(10px);
   background: rgba(20, 20, 20, 0.5);
   border-bottom: 1px solid rgba(255,255,255,0.1);
   z-index: 1000;
 }
-.logo {
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: #00ffcc;
-}
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 1.5rem;
-}
+.logo { font-size:1.4rem; font-weight:bold; color:#00ffcc; }
+.nav-links { list-style:none; display:flex; gap:1.5rem; }
 .nav-links li a {
-  color: #fff;
-  text-decoration: none;
-  position: relative;
+  color:#fff; text-decoration:none; position:relative;
+  transition: color 0.3s;
 }
 .nav-links li a::after {
-  content: "";
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 0%;
-  height: 2px;
-  background: #00ffcc;
+  content:""; position:absolute; bottom:-4px; left:0;
+  width:0%; height:2px; background:#00ffcc;
   transition: width 0.3s;
 }
-.nav-links li a:hover::after {
-  width: 100%;
-}
+.nav-links li a:hover { color:#00ffcc; }
+.nav-links li a:hover::after { width:100%; }
 
 /* ---------- HERO ---------- */
 .hero {
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 2rem;
+  display:flex; flex-direction: column;
+  align-items:center; justify-content:center;
+  text-align:center;
   background: linear-gradient(135deg, rgba(0,255,204,0.05), rgba(255,0,255,0.05));
 }
 .hero h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 3rem;
+  background: linear-gradient(90deg,#00ffcc,#ff00ff,#00ffcc);
+  background-size: 200%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientMove 6s infinite linear;
 }
 .hero p {
-  font-size: 1.1rem;
-  color: #ccc;
+  font-size:1.2rem; color:#ccc; margin-top:0.5rem;
+  animation: fadeUp 1s ease forwards;
 }
+@keyframes gradientMove {
+  0% { background-position:200% center; }
+  100% { background-position:0 center; }
+}
+
+/* ---------- SOCIALS ---------- */
 .socials {
-  position: fixed;
-  left: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  position:fixed; left:1rem; top:50%; transform:translateY(-50%);
+  display:flex; flex-direction:column; gap:1rem;
 }
-.socials a {
-  color: #00ffcc;
-  font-size: 1.2rem;
-}
+.socials a { color:#00ffcc; font-size:1.2rem; transition: transform 0.3s; }
+.socials a:hover { transform: scale(1.2); }
 
 /* ---------- SECTIONS ---------- */
 section {
-  padding: 5rem 2rem;
+  padding:5rem 2rem;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+section.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 section h2 {
-  text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2rem;
-  color: #00ffcc;
+  text-align:center; margin-bottom:2rem;
+  font-size: 2.2rem; color: #00ffcc;
+}
+section p {
+  max-width: 700px; margin:auto; text-align:center; color: #ccc;
 }
 
 /* ---------- CAROUSEL ---------- */
-.carousel {
-  overflow: hidden;
-  white-space: nowrap;
-}
+.carousel { overflow: hidden; white-space: nowrap; }
 .carousel-track {
-  display: inline-block;
-  animation: scroll 20s linear infinite;
+  display:inline-block; animation: scroll 20s linear infinite;
 }
-.carousel:hover .carousel-track {
-  animation-play-state: paused;
-}
+.carousel:hover .carousel-track { animation-play-state: paused; }
 .carousel-track img {
-  height: 60px;
-  margin: 0 1.5rem;
+  height:60px; margin:0 1.5rem;
   filter: drop-shadow(0 0 5px #00ffcc);
 }
 @keyframes scroll {
@@ -170,10 +145,7 @@ section h2 {
 
 /* ---------- CURSOR ---------- */
 .cursor {
-  position: fixed;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
+  position: fixed; width: 20px; height: 20px; border-radius:50%;
   background: rgba(0,255,204,0.7);
   box-shadow: 0 0 20px #00ffcc, 0 0 50px #00ffcc;
   pointer-events: none;
@@ -181,25 +153,18 @@ section h2 {
   transition: transform 0.1s ease;
 }
 
+/* ---------- ANIMATIONS ---------- */
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 768px) {
-  .nav-links { gap: 1rem; }
-  .hero h1 { font-size: 1.8rem; }
+  .hero h1 { font-size: 2rem; }
+  .nav-links { gap:1rem; }
 }
 </style>
-<script>
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.getElementById('preloader').style.display = 'none';
-  }, 3500);
-});
-
-document.addEventListener('mousemove', e => {
-  const cursor = document.querySelector('.cursor');
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
-});
-</script>
 </head>
 <body>
 <!-- Preloader -->
@@ -218,44 +183,42 @@ document.addEventListener('mousemove', e => {
   </ul>
 </nav>
 
-<!-- Hero Section -->
+<!-- Hero -->
 <header class="hero">
   <div class="socials">
     <a href="https://github.com/MRSHAKILS" target="_blank">GH</a>
   </div>
-  <div class="intro">
-    <h1>Hey there! 👋</h1>
-    <p>I build fast, clean, and futuristic websites</p>
-  </div>
+  <h1>Hey there! 👋 I’m Shakil Ahmed</h1>
+  <p>I craft modern, futuristic, and high-performance web experiences.</p>
 </header>
 
 <!-- About -->
 <section id="about">
   <h2>About Me</h2>
-  <p style="text-align:center; max-width:700px; margin:auto;">I'm Shakil Ahmed, a passionate fullstack developer focused on building creative, scalable, and efficient web solutions.</p>
+  <p>I’m a passionate fullstack developer focused on delivering creative, scalable, and high-quality digital products.</p>
 </section>
 
 <!-- Achievements -->
 <section id="achievements">
   <h2>Achievements</h2>
-  <p style="text-align:center;">Coming soon...</p>
+  <p>Coming soon...</p>
 </section>
 
 <!-- Work -->
 <section id="work">
   <h2>Work</h2>
-  <p style="text-align:center;">Coming soon...</p>
+  <p>Coming soon...</p>
 </section>
 
 <!-- Contact -->
 <section id="contact">
   <h2>Contact</h2>
-  <p style="text-align:center;">Let's connect soon!</p>
+  <p>Let's build something amazing together!</p>
 </section>
 
 <!-- Tools -->
 <section id="tools">
-  <h2>Languages & Tools I Use</h2>
+  <h2>Languages & Tools</h2>
   <div class="carousel">
     <div class="carousel-track">
       <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg">
@@ -274,5 +237,35 @@ document.addEventListener('mousemove', e => {
 
 <!-- Cursor -->
 <div class="cursor"></div>
+
+<script>
+// Preloader removal
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('preloader').style.display = 'none';
+  }, 3500);
+});
+
+// Cursor follow
+document.addEventListener('mousemove', e => {
+  const cursor = document.querySelector('.cursor');
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+
+// Section reveal on scroll
+const sections = document.querySelectorAll('section');
+const revealOnScroll = () => {
+  const triggerBottom = window.innerHeight * 0.85;
+  sections.forEach(sec => {
+    const boxTop = sec.getBoundingClientRect().top;
+    if (boxTop < triggerBottom) {
+      sec.classList.add('visible');
+    }
+  });
+};
+window.addEventListener('scroll', revealOnScroll);
+revealOnScroll();
+</script>
 </body>
 </html>
