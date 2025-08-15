@@ -5,15 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Shakil Ahmed - Portfolio</title>
 <style>
-/* ---------- RESET ---------- */
-* { margin:0; padding:0; box-sizing:border-box; }
 body {
+  margin: 0;
   font-family: 'Poppins', sans-serif;
   background: #0a0a0a;
-  color: #fff;
+  color: white;
   overflow-x: hidden;
   cursor: none;
-  scroll-behavior: smooth;
 }
 
 /* ---------- PRELOADER ---------- */
@@ -66,81 +64,48 @@ body {
 .nav-links { list-style:none; display:flex; gap:1.5rem; }
 .nav-links li a {
   color:#fff; text-decoration:none; position:relative;
-  transition: color 0.3s;
-}
-.nav-links li a::after {
-  content:""; position:absolute; bottom:-4px; left:0;
-  width:0%; height:2px; background:#00ffcc;
-  transition: width 0.3s;
 }
 .nav-links li a:hover { color:#00ffcc; }
-.nav-links li a:hover::after { width:100%; }
 
 /* ---------- HERO ---------- */
 .hero {
-  min-height: 100vh;
-  display:flex; flex-direction: column;
-  align-items:center; justify-content:center;
-  text-align:center;
-  background: linear-gradient(135deg, rgba(0,255,204,0.05), rgba(255,0,255,0.05));
+  height: 100vh;
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
 }
-.hero h1 {
-  font-size: 3rem;
+.avatar-wrapper {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  transition: transform 0.6s ease, left 0.6s ease, top 0.6s ease;
+  width: 200px; height: 200px;
+}
+.avatar {
+  width: 100%; height: 100%;
+}
+.hero-details {
+  position: absolute;
+  right: -100%;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 500px;
+  text-align: left;
+  transition: right 0.6s ease, opacity 0.6s ease;
+  opacity: 0;
+}
+.hero-details h1 {
+  font-size: 2.5rem;
   background: linear-gradient(90deg,#00ffcc,#ff00ff,#00ffcc);
   background-size: 200%;
   -webkit-background-clip:text;
   -webkit-text-fill-color: transparent;
   animation: gradientMove 6s infinite linear;
 }
-.hero p {
-  font-size:1.2rem; color:#ccc; margin-top:0.5rem;
-  animation: fadeUp 1s ease forwards;
-}
+.hero-details p { color: #ccc; font-size: 1.2rem; }
 @keyframes gradientMove {
   0% { background-position:200% center; }
   100% { background-position:0 center; }
-}
-
-/* ---------- SOCIALS ---------- */
-.socials {
-  position:fixed; left:1rem; top:50%; transform:translateY(-50%);
-  display:flex; flex-direction:column; gap:1rem;
-}
-.socials a { color:#00ffcc; font-size:1.2rem; transition: transform 0.3s; }
-.socials a:hover { transform: scale(1.2); }
-
-/* ---------- SECTIONS ---------- */
-section {
-  padding:5rem 2rem;
-  opacity: 0;
-  transform: translateY(50px);
-  transition: opacity 1s ease, transform 1s ease;
-}
-section.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-section h2 {
-  text-align:center; margin-bottom:2rem;
-  font-size: 2.2rem; color: #00ffcc;
-}
-section p {
-  max-width: 700px; margin:auto; text-align:center; color: #ccc;
-}
-
-/* ---------- CAROUSEL ---------- */
-.carousel { overflow: hidden; white-space: nowrap; }
-.carousel-track {
-  display:inline-block; animation: scroll 20s linear infinite;
-}
-.carousel:hover .carousel-track { animation-play-state: paused; }
-.carousel-track img {
-  height:60px; margin:0 1.5rem;
-  filter: drop-shadow(0 0 5px #00ffcc);
-}
-@keyframes scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
 }
 
 /* ---------- CURSOR ---------- */
@@ -153,20 +118,28 @@ section p {
   transition: transform 0.1s ease;
 }
 
-/* ---------- ANIMATIONS ---------- */
-@keyframes fadeUp {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
+/* ---------- SECTIONS ---------- */
+section {
+  padding:5rem 2rem;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 1s ease, transform 1s ease;
 }
+section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+section h2 { text-align:center; color:#00ffcc; }
+section p { text-align:center; color:#ccc; }
 
-/* ---------- RESPONSIVE ---------- */
 @media (max-width: 768px) {
-  .hero h1 { font-size: 2rem; }
-  .nav-links { gap:1rem; }
+  .avatar-wrapper { width: 150px; height: 150px; }
+  .hero-details h1 { font-size: 1.8rem; }
 }
 </style>
 </head>
 <body>
+
 <!-- Preloader -->
 <div id="preloader">
   <div class="loader-text">Shakil Ahmed – Fullstack Developer</div>
@@ -184,13 +157,25 @@ section p {
 </nav>
 
 <!-- Hero -->
-<header class="hero">
-  <div class="socials">
-    <a href="https://github.com/MRSHAKILS" target="_blank">GH</a>
+<div class="hero">
+  <div class="avatar-wrapper" id="avatarWrapper">
+    <!-- Simple SVG Avatar -->
+    <svg class="avatar" viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="90" fill="#222" stroke="#00ffcc" stroke-width="4"/>
+      <!-- Eyes -->
+      <circle id="eyeLeft" cx="65" cy="80" r="15" fill="#fff"/>
+      <circle id="pupilLeft" cx="65" cy="80" r="7" fill="#000"/>
+      <circle id="eyeRight" cx="135" cy="80" r="15" fill="#fff"/>
+      <circle id="pupilRight" cx="135" cy="80" r="7" fill="#000"/>
+      <!-- Smile -->
+      <path d="M60 120 Q100 150 140 120" stroke="#fff" stroke-width="4" fill="transparent"/>
+    </svg>
   </div>
-  <h1>Hey there! 👋 I’m Shakil Ahmed</h1>
-  <p>I craft modern, futuristic, and high-performance web experiences.</p>
-</header>
+  <div class="hero-details" id="heroDetails">
+    <h1>Hey there! 👋 I’m Shakil Ahmed</h1>
+    <p>I craft modern, futuristic, and high-performance web experiences.</p>
+  </div>
+</div>
 
 <!-- About -->
 <section id="about">
@@ -198,48 +183,15 @@ section p {
   <p>I’m a passionate fullstack developer focused on delivering creative, scalable, and high-quality digital products.</p>
 </section>
 
-<!-- Achievements -->
-<section id="achievements">
-  <h2>Achievements</h2>
-  <p>Coming soon...</p>
-</section>
-
-<!-- Work -->
-<section id="work">
-  <h2>Work</h2>
-  <p>Coming soon...</p>
-</section>
-
-<!-- Contact -->
-<section id="contact">
-  <h2>Contact</h2>
-  <p>Let's build something amazing together!</p>
-</section>
-
-<!-- Tools -->
-<section id="tools">
-  <h2>Languages & Tools</h2>
-  <div class="carousel">
-    <div class="carousel-track">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg">
-    </div>
-  </div>
-</section>
+<section id="achievements"><h2>Achievements</h2><p>Coming soon...</p></section>
+<section id="work"><h2>Work</h2><p>Coming soon...</p></section>
+<section id="contact"><h2>Contact</h2><p>Let's build something amazing together!</p></section>
 
 <!-- Cursor -->
 <div class="cursor"></div>
 
 <script>
-// Preloader removal
+// Preloader
 window.addEventListener('load', () => {
   setTimeout(() => {
     document.getElementById('preloader').style.display = 'none';
@@ -253,15 +205,54 @@ document.addEventListener('mousemove', e => {
   cursor.style.top = e.clientY + 'px';
 });
 
-// Section reveal on scroll
+// Avatar eye tracking
+document.addEventListener('mousemove', e => {
+  const rect = document.querySelector('.avatar').getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+  
+  const dx = e.clientX - centerX;
+  const dy = e.clientY - centerY;
+  
+  const angle = Math.atan2(dy, dx);
+  const distance = Math.min(5, Math.hypot(dx, dy) / 40);
+
+  const pupilLeft = document.getElementById('pupilLeft');
+  const pupilRight = document.getElementById('pupilRight');
+
+  pupilLeft.setAttribute('cx', 65 + Math.cos(angle) * distance);
+  pupilLeft.setAttribute('cy', 80 + Math.sin(angle) * distance);
+  pupilRight.setAttribute('cx', 135 + Math.cos(angle) * distance);
+  pupilRight.setAttribute('cy', 80 + Math.sin(angle) * distance);
+});
+
+// Scroll-triggered avatar shrink
+window.addEventListener('scroll', () => {
+  const heroHeight = document.querySelector('.hero').offsetHeight;
+  const scrollY = window.scrollY;
+  const avatarWrapper = document.getElementById('avatarWrapper');
+  const heroDetails = document.getElementById('heroDetails');
+  
+  if (scrollY > heroHeight / 4) {
+    avatarWrapper.style.transform = 'translate(-150%, -50%) scale(0.5)';
+    avatarWrapper.style.left = '10%';
+    heroDetails.style.right = '10%';
+    heroDetails.style.opacity = '1';
+  } else {
+    avatarWrapper.style.transform = 'translate(-50%, -50%) scale(1)';
+    avatarWrapper.style.left = '50%';
+    heroDetails.style.right = '-100%';
+    heroDetails.style.opacity = '0';
+  }
+});
+
+// Section reveal
 const sections = document.querySelectorAll('section');
 const revealOnScroll = () => {
   const triggerBottom = window.innerHeight * 0.85;
   sections.forEach(sec => {
     const boxTop = sec.getBoundingClientRect().top;
-    if (boxTop < triggerBottom) {
-      sec.classList.add('visible');
-    }
+    if (boxTop < triggerBottom) sec.classList.add('visible');
   });
 };
 window.addEventListener('scroll', revealOnScroll);
