@@ -1,242 +1,278 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shakil Ahmed - Portfolio</title>
-  <style>
-    /* Reset and base styles */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #0f0f0f;
-      color: #fff;
-      overflow-x: hidden;
-      cursor: none;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shakil Ahmed - Portfolio</title>
+<style>
+/* ---------- RESET ---------- */
+* {
+  margin: 0; padding: 0; box-sizing: border-box;
+}
+body {
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top left, #050505, #0f0f0f);
+  color: #fff;
+  overflow-x: hidden;
+  cursor: none;
+}
 
-    /* Preloader */
-    #preloader {
-      position: fixed;
-      width: 100vw;
-      height: 100vh;
-      background: #0f0f0f;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
-    .loader-text {
-      white-space: nowrap;
-      animation: scroll-text 3s linear forwards;
-      font-size: 1.5rem;
-      color: #00ffcc;
-    }
-    @keyframes scroll-text {
-      0% { transform: translateX(100%); opacity: 0; }
-      50% { opacity: 1; }
-      100% { transform: translateX(-100%); opacity: 0; }
-    }
+/* ---------- PRELOADER ---------- */
+#preloader {
+  position: fixed;
+  inset: 0;
+  background: #0f0f0f;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  z-index: 9999;
+}
+.loader-text {
+  font-size: 1.5rem;
+  font-weight: 600;
+  background: linear-gradient(90deg, #0ff, #f0f, #0ff);
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: moveText 3s linear infinite;
+  white-space: nowrap;
+}
+.progress-bar {
+  width: 300px;
+  height: 6px;
+  background: #222;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress-fill {
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #00ffcc, #ff00ff);
+  animation: fillBar 3.5s ease forwards;
+  border-radius: 3px;
+}
+@keyframes moveText {
+  0% { background-position: 200% center; }
+  100% { background-position: 0 center; }
+}
+@keyframes fillBar {
+  to { width: 100%; }
+}
 
-    /* Navbar */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      background: #1a1a1a;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    .navbar .logo {
-      font-size: 1.3rem;
-      font-weight: bold;
-      color: #00ffcc;
-    }
-    .nav-links {
-      list-style: none;
-      display: flex;
-      gap: 2rem;
-    }
-    .nav-links li a {
-      color: #fff;
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-    .nav-links li a:hover {
-      color: #00ffcc;
-    }
+/* ---------- NAVBAR ---------- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(10px);
+  background: rgba(20, 20, 20, 0.5);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  z-index: 1000;
+}
+.logo {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #00ffcc;
+}
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+.nav-links li a {
+  color: #fff;
+  text-decoration: none;
+  position: relative;
+}
+.nav-links li a::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: #00ffcc;
+  transition: width 0.3s;
+}
+.nav-links li a:hover::after {
+  width: 100%;
+}
 
-    /* Hero */
-    .hero {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      height: 100vh;
-      padding-top: 3rem;
-      text-align: center;
-    }
-    .socials {
-      position: absolute;
-      left: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .socials a {
-      color: #00ffcc;
-      text-decoration: none;
-    }
+/* ---------- HERO ---------- */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(0,255,204,0.05), rgba(255,0,255,0.05));
+}
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+.hero p {
+  font-size: 1.1rem;
+  color: #ccc;
+}
+.socials {
+  position: fixed;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.socials a {
+  color: #00ffcc;
+  font-size: 1.2rem;
+}
 
-    /* Sections */
-    section {
-      padding: 4rem 2rem;
-    }
-    section h2 {
-      color: #00ffcc;
-      margin-bottom: 1rem;
-    }
+/* ---------- SECTIONS ---------- */
+section {
+  padding: 5rem 2rem;
+}
+section h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  color: #00ffcc;
+}
 
-    /* Carousel */
-    .carousel {
-      overflow: hidden;
-      white-space: nowrap;
-    }
-    .carousel-track {
-      display: inline-block;
-      animation: scroll-carousel 15s linear infinite;
-    }
-    .carousel:hover .carousel-track {
-      animation-play-state: paused;
-    }
-    .carousel-track img {
-      width: 60px;
-      height: 60px;
-      margin: 0 1rem;
-      vertical-align: middle;
-    }
-    @keyframes scroll-carousel {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
+/* ---------- CAROUSEL ---------- */
+.carousel {
+  overflow: hidden;
+  white-space: nowrap;
+}
+.carousel-track {
+  display: inline-block;
+  animation: scroll 20s linear infinite;
+}
+.carousel:hover .carousel-track {
+  animation-play-state: paused;
+}
+.carousel-track img {
+  height: 60px;
+  margin: 0 1.5rem;
+  filter: drop-shadow(0 0 5px #00ffcc);
+}
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
 
-    /* Glowing Cursor */
-    .cursor {
-      position: fixed;
-      width: 15px;
-      height: 15px;
-      background: #00ffcc;
-      border-radius: 50%;
-      pointer-events: none;
-      box-shadow: 0 0 15px #00ffcc;
-      z-index: 10000;
-      transform: translate(-50%, -50%);
-    }
+/* ---------- CURSOR ---------- */
+.cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(0,255,204,0.7);
+  box-shadow: 0 0 20px #00ffcc, 0 0 50px #00ffcc;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease;
+}
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      .nav-links {
-        gap: 1rem;
-      }
-      .carousel-track img {
-        width: 40px;
-        height: 40px;
-      }
-    }
-  </style>
-  <script>
-    // Preloader fade out
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.getElementById('preloader').style.display = 'none';
-      }, 3500);
-    });
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+  .nav-links { gap: 1rem; }
+  .hero h1 { font-size: 1.8rem; }
+}
+</style>
+<script>
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('preloader').style.display = 'none';
+  }, 3500);
+});
 
-    // Glowing cursor
-    const cursor = document.querySelector('.cursor');
-    document.addEventListener('mousemove', e => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
-    });
-  </script>
+document.addEventListener('mousemove', e => {
+  const cursor = document.querySelector('.cursor');
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+</script>
 </head>
 <body>
-  <!-- Preloader -->
-  <div id="preloader">
-    <div class="loader-text">Shakil Ahmed – Fullstack Developer</div>
+<!-- Preloader -->
+<div id="preloader">
+  <div class="loader-text">Shakil Ahmed – Fullstack Developer</div>
+  <div class="progress-bar"><div class="progress-fill"></div></div>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="logo">shakillinit</div>
+  <ul class="nav-links">
+    <li><a href="#achievements">Achievements</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- Hero Section -->
+<header class="hero">
+  <div class="socials">
+    <a href="https://github.com/MRSHAKILS" target="_blank">GH</a>
   </div>
+  <div class="intro">
+    <h1>Hey there! 👋</h1>
+    <p>I build fast, clean, and futuristic websites</p>
+  </div>
+</header>
 
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="logo">shakillinit</div>
-    <ul class="nav-links">
-      <li><a href="#achievements">Achievements</a></li>
-      <li><a href="#work">Work</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+<!-- About -->
+<section id="about">
+  <h2>About Me</h2>
+  <p style="text-align:center; max-width:700px; margin:auto;">I'm Shakil Ahmed, a passionate fullstack developer focused on building creative, scalable, and efficient web solutions.</p>
+</section>
 
-  <!-- Hero Section -->
-  <header class="hero">
-    <div class="socials">
-      <a href="https://github.com/MRSHAKILS" target="_blank">GitHub</a>
+<!-- Achievements -->
+<section id="achievements">
+  <h2>Achievements</h2>
+  <p style="text-align:center;">Coming soon...</p>
+</section>
+
+<!-- Work -->
+<section id="work">
+  <h2>Work</h2>
+  <p style="text-align:center;">Coming soon...</p>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+  <h2>Contact</h2>
+  <p style="text-align:center;">Let's connect soon!</p>
+</section>
+
+<!-- Tools -->
+<section id="tools">
+  <h2>Languages & Tools I Use</h2>
+  <div class="carousel">
+    <div class="carousel-track">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg">
     </div>
-    <div class="intro">
-      <h1>Hey there! 👋</h1>
-      <p>I build fast, clean, and futuristic websites</p>
-    </div>
-  </header>
+  </div>
+</section>
 
-  <!-- About Section -->
-  <section id="about">
-    <h2>About Me</h2>
-    <p>I'm Shakil Ahmed, a passionate fullstack developer focused on building creative, scalable, and efficient web solutions.</p>
-  </section>
-
-  <!-- Achievements Section -->
-  <section id="achievements">
-    <h2>Achievements</h2>
-    <p>Coming soon...</p>
-  </section>
-
-  <!-- Work Section -->
-  <section id="work">
-    <h2>Work</h2>
-    <p>Coming soon...</p>
-  </section>
-
-  <!-- Contact Section -->
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>Let's connect soon!</p>
-  </section>
-
-  <!-- Languages & Tools Carousel -->
-  <section id="tools">
-    <h2>Languages & Tools I Use</h2>
-    <div class="carousel">
-      <div class="carousel-track">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git">
-      </div>
-    </div>
-  </section>
-
-  <!-- Glowing Cursor -->
-  <div class="cursor"></div>
+<!-- Cursor -->
+<div class="cursor"></div>
 </body>
 </html>
