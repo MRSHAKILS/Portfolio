@@ -1,88 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shakil Ahmed – Portfolio with 3D Avatar</title>
-  <style>
-    body { margin:0; overflow-x:hidden; font-family:'Poppins', sans-serif; background:#050507; color:#fff; }
-    #hero { position:relative; height:100vh; }
-    #avatarCanvas { position:absolute; top:50%; left:50%; width:320px; height:450px; transform:translate(-50%,-50%) scale(1); transition:transform 1s ease; }
-    .avatar-left { transform:translate(-20%,-30%) scale(0.5) !important; left:0 !important; top:50% !important; }
-    .hero-text { position:absolute; top:60%; right:-100%; transform:translateY(-50%); opacity:0; transition:right 1s ease, opacity 1s ease; max-width:600px; padding:1rem; }
-    .hero-text.show { right:5%; opacity:1; }
-    .section { opacity:0; transform:translateY(40px); transition:opacity .8s ease, transform .8s ease; padding:4rem 2rem; }
-    .section.visible { opacity:1; transform:translateY(0); }
-    .nav { position:sticky; top:0; background:rgba(20,20,20,0.5); padding:1rem; backdrop-filter:blur(6px); z-index:10; }
-    .nav a { color:#fff; margin-right:1rem; text-decoration:none; }
-    canvas { pointer-events:none; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shakil Ahmed – Futuristic Portfolio</title>
+<style>
+  body {
+    margin:0;
+    font-family:'Poppins', sans-serif;
+    background:#050507;
+    color:white;
+    overflow-x:hidden;
+  }
+  nav {
+    position:sticky;
+    top:0;
+    background:rgba(10,10,10,0.6);
+    backdrop-filter:blur(8px);
+    padding:1rem 2rem;
+    z-index:10;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  nav a {
+    color:white;
+    margin-left:1.5rem;
+    text-decoration:none;
+    font-weight:500;
+    position:relative;
+  }
+  nav a::after {
+    content:'';
+    position:absolute;
+    left:0;
+    bottom:-4px;
+    width:0;
+    height:2px;
+    background:#0ff;
+    transition:width 0.3s ease;
+  }
+  nav a:hover::after { width:100%; }
+  #hero {
+    position:relative;
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    flex-wrap:wrap;
+  }
+  #avatarCanvas {
+    width:320px;
+    height:450px;
+    transition:transform 1s ease;
+  }
+  .avatar-left {
+    transform:scale(0.5) translateX(-80%);
+  }
+  .hero-text {
+    max-width:500px;
+    opacity:0;
+    transform:translateX(50px);
+    transition:opacity 1s ease, transform 1s ease;
+  }
+  .hero-text.show {
+    opacity:1;
+    transform:translateX(0);
+  }
+  .section {
+    opacity:0;
+    transform:translateY(50px);
+    transition:opacity 0.8s ease, transform 0.8s ease;
+    padding:4rem 2rem;
+    text-align:center;
+  }
+  .section.visible { opacity:1; transform:translateY(0); }
+  .badge {
+    display:inline-block;
+    padding:0.5rem 1rem;
+    border:1px solid #0ff;
+    border-radius:20px;
+    margin:0.5rem;
+    transition:transform 0.3s ease, background 0.3s ease;
+  }
+  .badge:hover {
+    transform:scale(1.1);
+    background:rgba(0,255,255,0.1);
+  }
+  @media (max-width:768px) {
+    .avatar-left { transform:scale(0.7) translateX(-20%); }
+    #hero { flex-direction:column; }
+    .hero-text { text-align:center; transform:none; }
+  }
+</style>
 </head>
 <body>
-  <nav class="nav"><span class="logo">shakillinit</span><a href="#achievements">Achievements</a><a href="#work">Work</a><a href="#contact">Contact</a></nav>
-  <div id="hero">
-    <canvas id="avatarCanvas"></canvas>
-    <div class="hero-text" id="heroText">
-      <h1 style="font-size:2.5rem; background:linear-gradient(90deg,#00ffcc,#ff00ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent; animation: gradient 6s infinite;">Hey there! I’m Shakil Ahmed</h1>
-      <p>I build modern, futuristic and performant web experiences.</p>
-    </div>
+<nav>
+  <span class="logo">shakillinit</span>
+  <div>
+    <a href="#achievements">Achievements</a>
+    <a href="#work">Work</a>
+    <a href="#contact">Contact</a>
   </div>
-  <section id="about" class="section"><h2>About Me</h2><p>I'm a passionate fullstack developer ...</p></section>
-  <section id="achievements" class="section"><h2>Achievements</h2><p>...</p></section>
-  <section id="work" class="section"><h2>Work</h2><p>...</p></section>
-  <section id="contact" class="section"><h2>Contact</h2><p>...</p></section>
+</nav>
 
-  <!-- three.js from CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/loaders/GLTFLoader.js"></script>
-  <script>
-    // three.js setup
-    const canvas = document.getElementById('avatarCanvas');
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(25, canvas.clientWidth/canvas.clientHeight, 0.1, 1000);
-    camera.position.set(0,1.6,2.3);
-    const light = new THREE.HemisphereLight(0xffffff, 0x444444);
-    scene.add(light);
-    const dir = new THREE.DirectionalLight(0xffffff, 1);
-    dir.position.set(0,4,4);
-    scene.add(dir);
+<section id="hero">
+  <canvas id="avatarCanvas"></canvas>
+  <div class="hero-text" id="heroText">
+    <h1 style="font-size:2.5rem; background:linear-gradient(90deg,#00ffcc,#ff00ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Hey there! I’m Shakil Ahmed</h1>
+    <p>I build modern, futuristic and performant web experiences.</p>
+  </div>
+</section>
 
-    // Load your GLB model (replace with your ReadyPlayerMe URL)
-    const loader = new THREE.GLTFLoader();
-    loader.load('YOUR_AVATAR_GLB_URL.glb', gltf => {
-      const avatar = gltf.scene;
-      avatar.scale.set(1.2,1.2,1.2);
-      avatar.rotation.y = Math.PI; // face camera
-      scene.add(avatar);
+<section id="about" class="section"><h2>About Me</h2><p>I'm a passionate fullstack developer...</p></section>
+<section id="achievements" class="section"><h2>Achievements</h2><p>My highlights...</p></section>
+<section id="work" class="section"><h2>Work</h2><p>Projects...</p></section>
+<section id="skills" class="section">
+  <h2>Languages & Tools</h2>
+  <div>
+    <span class="badge">JavaScript</span>
+    <span class="badge">React</span>
+    <span class="badge">Node.js</span>
+  </div>
+</section>
+<section id="contact" class="section"><h2>Contact</h2><p>Email me at example@example.com</p></section>
 
-      function animate() {
-        renderer.render(scene, camera);
-        requestAnimationFrame(animate);
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/loaders/GLTFLoader.js"></script>
+<script>
+  const canvas = document.getElementById('avatarCanvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true });
+  renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(25, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+  camera.position.set(0,1.6,2.3);
+
+  const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1);
+  scene.add(hemi);
+  const dir = new THREE.DirectionalLight(0xffffff, 0.8);
+  dir.position.set(0,4,4);
+  scene.add(dir);
+
+  let avatarMesh, blinkTimer = 0, eyes;
+  const loader = new THREE.GLTFLoader();
+  loader.load('YOUR_READY_PLAYER_ME_AVATAR.glb', gltf => {
+    avatarMesh = gltf.scene;
+    avatarMesh.scale.set(1.2,1.2,1.2);
+    avatarMesh.rotation.y = Math.PI;
+    scene.add(avatarMesh);
+
+    // Try to find eyes if morph targets exist
+    avatarMesh.traverse(obj => {
+      if (obj.isMesh && obj.morphTargetDictionary && obj.morphTargetDictionary['eyesClosed']) {
+        eyes = obj;
       }
-      animate();
     });
+  });
 
-    window.addEventListener('scroll', () => {
-      const hero = document.getElementById('hero');
-      const rect = hero.getBoundingClientRect();
-      const trigger = window.innerHeight * 0.3;
-      const canvasEl = canvas;
-      const heroText = document.getElementById('heroText');
-      if (rect.top < trigger) {
-        canvasEl.classList.add('avatar-left');
-        heroText.classList.add('show');
-      } else {
-        canvasEl.classList.remove('avatar-left');
-        heroText.classList.remove('show');
+  function animate() {
+    requestAnimationFrame(animate);
+    if (eyes) {
+      blinkTimer += 0.01;
+      if (blinkTimer > 5) { // every ~5s
+        eyes.morphTargetInfluences[eyes.morphTargetDictionary['eyesClosed']] = Math.sin(Date.now() * 0.01) * 0.5 + 0.5;
+        if (Math.random() > 0.98) blinkTimer = 0; // random blink reset
       }
+    }
+    renderer.render(scene, camera);
+  }
+  animate();
 
-      document.querySelectorAll('.section').forEach(sec => {
-        if (sec.getBoundingClientRect().top < window.innerHeight * 0.85) {
-          sec.classList.add('visible');
-        }
-      });
+  window.addEventListener('scroll', () => {
+    const hero = document.getElementById('hero');
+    const rect = hero.getBoundingClientRect();
+    const trigger = window.innerHeight * 0.3;
+    if (rect.top < trigger) {
+      canvas.classList.add('avatar-left');
+      document.getElementById('heroText').classList.add('show');
+    } else {
+      canvas.classList.remove('avatar-left');
+      document.getElementById('heroText').classList.remove('show');
+    }
+    document.querySelectorAll('.section').forEach(sec => {
+      if (sec.getBoundingClientRect().top < window.innerHeight * 0.85) {
+        sec.classList.add('visible');
+      }
     });
-  </script>
+  });
+</script>
 </body>
 </html>
