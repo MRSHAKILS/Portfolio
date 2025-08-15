@@ -1,262 +1,402 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Shakil Ahmed - Portfolio</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Shakil Ahmed — Portfolio (Hero with Human Avatar)</title>
 <style>
-body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background: #0a0a0a;
-  color: white;
-  overflow-x: hidden;
-  cursor: none;
-}
+  /* ---------- RESET ---------- */
+  * { box-sizing: border-box; margin:0; padding:0; }
+  html,body { height:100%; }
+  body {
+    font-family: "Inter", "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: radial-gradient(1200px 600px at 10% 10%, rgba(0,255,204,0.03), transparent 8%),
+                radial-gradient(800px 400px at 90% 90%, rgba(255,0,255,0.02), transparent 8%),
+                #050507;
+    color: #e6eef8;
+    overflow-x: hidden;
+    cursor: none; /* we'll add custom cursor */
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
 
-/* ---------- PRELOADER ---------- */
-#preloader {
-  position: fixed; inset:0;
-  background: #0a0a0a;
-  display: flex; flex-direction: column;
-  justify-content: center; align-items: center;
-  gap: 1rem;
-  z-index: 9999;
-}
-.loader-text {
-  font-size: 1.5rem; font-weight: 600;
-  background: linear-gradient(90deg, #0ff, #f0f, #0ff);
-  background-size: 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: moveText 3s linear infinite;
-  white-space: nowrap;
-}
-.progress-bar {
-  width: 300px; height: 6px;
-  background: #222; border-radius: 3px;
-  overflow: hidden;
-}
-.progress-fill {
-  width: 0; height: 100%;
-  background: linear-gradient(90deg, #00ffcc, #ff00ff);
-  animation: fillBar 3.5s ease forwards;
-  border-radius: 3px;
-}
-@keyframes moveText {
-  0% { background-position: 200% center; }
-  100% { background-position: 0 center; }
-}
-@keyframes fillBar {
-  to { width: 100%; }
-}
+  /* ---------- PRELOADER (short) ---------- */
+  #preloader {
+    position: fixed; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column;
+    background:#050507; z-index:9999;
+  }
+  .loader-title {
+    font-weight:600; color:transparent;
+    background:linear-gradient(90deg,#00ffd0,#9b00ff,#00ffd0);
+    background-clip:text; -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    font-size:1.25rem; margin-bottom:14px; background-size:200%;
+    animation: preloadText 3s linear forwards;
+  }
+  .loader-bar { width:320px; height:6px; background:#0f0f10; border-radius:999px; overflow:hidden; }
+  .loader-bar > i { display:block; height:100%; width:0%; background:linear-gradient(90deg,#00ffd0,#9b00ff); animation:fill 3.4s ease forwards; border-radius:999px; }
 
-/* ---------- NAVBAR ---------- */
-.navbar {
-  display:flex; justify-content: space-between; align-items:center;
-  padding:1rem 2rem; position: sticky; top:0;
-  backdrop-filter: blur(10px);
-  background: rgba(20, 20, 20, 0.5);
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-  z-index: 1000;
-}
-.logo { font-size:1.4rem; font-weight:bold; color:#00ffcc; }
-.nav-links { list-style:none; display:flex; gap:1.5rem; }
-.nav-links li a {
-  color:#fff; text-decoration:none; position:relative;
-}
-.nav-links li a:hover { color:#00ffcc; }
+  @keyframes preloadText { 0% {opacity:0; transform:translateY(6px)} 50% {opacity:1} 100% {opacity:1} }
+  @keyframes fill { to { width:100%; } }
 
-/* ---------- HERO ---------- */
-.hero {
-  height: 100vh;
-  position: relative;
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden;
-}
-.avatar-wrapper {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%) scale(1);
-  transition: transform 0.6s ease, left 0.6s ease, top 0.6s ease;
-  width: 200px; height: 200px;
-}
-.avatar {
-  width: 100%; height: 100%;
-}
-.hero-details {
-  position: absolute;
-  right: -100%;
-  top: 50%;
-  transform: translateY(-50%);
-  max-width: 500px;
-  text-align: left;
-  transition: right 0.6s ease, opacity 0.6s ease;
-  opacity: 0;
-}
-.hero-details h1 {
-  font-size: 2.5rem;
-  background: linear-gradient(90deg,#00ffcc,#ff00ff,#00ffcc);
-  background-size: 200%;
-  -webkit-background-clip:text;
-  -webkit-text-fill-color: transparent;
-  animation: gradientMove 6s infinite linear;
-}
-.hero-details p { color: #ccc; font-size: 1.2rem; }
-@keyframes gradientMove {
-  0% { background-position:200% center; }
-  100% { background-position:0 center; }
-}
+  /* ---------- NAVBAR ---------- */
+  nav.navbar {
+    position: sticky; top:0; z-index:1000; display:flex; align-items:center; justify-content:space-between;
+    padding:12px 28px; backdrop-filter: blur(8px); background: rgba(18,18,20,0.35); border-bottom:1px solid rgba(255,255,255,0.03);
+  }
+  .logo { color:#00ffd0; font-weight:700; letter-spacing:0.6px; font-size:1.05rem; }
+  .navlinks { display:flex; gap:18px; list-style:none; align-items:center; }
+  .navlinks a { color: #e6eef8; text-decoration:none; padding:6px 0; position:relative; font-weight:500; }
+  .navlinks a::after { content:''; position:absolute; left:0; bottom:-6px; width:0; height:2px; background:#00ffd0; transition:width .28s ease; }
+  .navlinks a:hover::after { width:100%; }
 
-/* ---------- CURSOR ---------- */
-.cursor {
-  position: fixed; width: 20px; height: 20px; border-radius:50%;
-  background: rgba(0,255,204,0.7);
-  box-shadow: 0 0 20px #00ffcc, 0 0 50px #00ffcc;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  transition: transform 0.1s ease;
-}
+  /* ---------- LAYOUT ---------- */
+  .hero {
+    min-height:100vh; display:flex; align-items:center; justify-content:center; position:relative; padding:48px 28px;
+  }
+  .hero-inner {
+    width:100%; max-width:1200px; display:flex; align-items:center; justify-content:center; gap:48px; position:relative;
+  }
 
-/* ---------- SECTIONS ---------- */
-section {
-  padding:5rem 2rem;
-  opacity: 0;
-  transform: translateY(50px);
-  transition: opacity 1s ease, transform 1s ease;
-}
-section.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-section h2 { text-align:center; color:#00ffcc; }
-section p { text-align:center; color:#ccc; }
+  /* Avatar container (centered initially) */
+  .avatar-wrap {
+    width:320px; height:360px; position:relative; display:flex; align-items:center; justify-content:center;
+    transition: transform 0.7s cubic-bezier(.2,.9,.2,1), left 0.7s cubic-bezier(.2,.9,.2,1), top 0.7s ease;
+    transform-origin:center;
+  }
 
-@media (max-width: 768px) {
-  .avatar-wrapper { width: 150px; height: 150px; }
-  .hero-details h1 { font-size: 1.8rem; }
-}
+  /* Human SVG styling (shadow, glass) */
+  .avatar-card {
+    width:100%; height:100%; border-radius:18px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    box-shadow: 0 6px 30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.02);
+    display:flex; align-items:center; justify-content:center; padding:20px;
+    backdrop-filter: blur(6px);
+  }
+
+  /* friendly pulse / breath */
+  .avatar-card { animation: breath 6s ease-in-out infinite; }
+  @keyframes breath {
+    0% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-6px) scale(1.01); }
+    100% { transform: translateY(0) scale(1); }
+  }
+
+  /* Hero details (hidden initially off-right) */
+  .hero-details {
+    flex:1; max-width:640px; min-height:260px; padding: 8px 12px; position:relative;
+    right:-100%; opacity:0; transform:translateX(24px); transition: right .7s cubic-bezier(.2,.9,.2,1), opacity .65s ease, transform .65s ease;
+  }
+  .hero-details.show { right:0; opacity:1; transform:translateX(0); }
+
+  .hero-title {
+    font-size: clamp(1.8rem, 4.2vw, 2.8rem); font-weight:700; line-height:1.02;
+    background: linear-gradient(90deg,#00ffd0,#c400ff,#00ffd0); background-size:200%;
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; animation:hGradient 6s linear infinite;
+  }
+  @keyframes hGradient { 0%{background-position:200%}100%{background-position:0} }
+
+  .hero-sub { margin-top:14px; color:#bed5e6; font-size:1.02rem; max-width:42ch; }
+
+  /* small badges & CTA */
+  .meta-row { margin-top:18px; display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .badge { background: rgba(255,255,255,0.03); padding:8px 12px; border-radius:999px; color:#bfeee6; font-weight:600; font-size:.92rem; border:1px solid rgba(0,255,204,0.04); }
+
+  /* ---------- EYES (SVG handled in markup) ---------- */
+
+  /* Cursor */
+  .cursor {
+    position: fixed; width:18px; height:18px; border-radius:999px; z-index:4000; pointer-events:none;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.6)), rgba(0,255,204,0.9);
+    box-shadow:0 0 12px rgba(0,255,204,0.12), 0 0 36px rgba(0,255,204,0.08);
+    transform: translate(-50%,-50%); transition: transform .06s linear;
+  }
+
+  /* ---------- SCROLLED STATE (avatar shrinks + moves left) ---------- */
+  .avatar-left {
+    transform: translate(-46%, -8%) scale(0.48) !important;
+    left: 6% !important;
+    top: 48% !important;
+  }
+
+  /* small screens */
+  @media (max-width:900px) {
+    .hero-inner { flex-direction:column-reverse; gap:20px; padding-top:28px; }
+    .avatar-wrap { width:260px; height:300px; }
+    .avatar-left { transform: translate(-50%,-8%) scale(0.6) !important; left: 6% !important; top: 30% !important; }
+    .hero-details { text-align:center; padding:0 6px; }
+  }
+
+  /* ---------- SECTIONS AFTER HERO ---------- */
+  section { padding: 64px 28px; opacity:0; transform: translateY(30px); transition: all .8s cubic-bezier(.2,.9,.2,1); }
+  section.visible { opacity:1; transform: translateY(0); }
+  section h2 { color:#00ffd0; text-align:center; font-size:1.4rem; margin-bottom:18px; }
+
 </style>
 </head>
 <body>
 
-<!-- Preloader -->
+<!-- PRELOADER -->
 <div id="preloader">
-  <div class="loader-text">Shakil Ahmed – Fullstack Developer</div>
-  <div class="progress-bar"><div class="progress-fill"></div></div>
+  <div class="loader-title">Shakil Ahmed — Fullstack Developer</div>
+  <div class="loader-bar"><i></i></div>
 </div>
 
-<!-- Navbar -->
+<!-- NAV -->
 <nav class="navbar">
   <div class="logo">shakillinit</div>
-  <ul class="nav-links">
+  <ul class="navlinks" aria-label="main menu">
     <li><a href="#achievements">Achievements</a></li>
     <li><a href="#work">Work</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
 
-<!-- Hero -->
-<div class="hero">
-  <div class="avatar-wrapper" id="avatarWrapper">
-    <!-- Simple SVG Avatar -->
-    <svg class="avatar" viewBox="0 0 200 200">
-      <circle cx="100" cy="100" r="90" fill="#222" stroke="#00ffcc" stroke-width="4"/>
-      <!-- Eyes -->
-      <circle id="eyeLeft" cx="65" cy="80" r="15" fill="#fff"/>
-      <circle id="pupilLeft" cx="65" cy="80" r="7" fill="#000"/>
-      <circle id="eyeRight" cx="135" cy="80" r="15" fill="#fff"/>
-      <circle id="pupilRight" cx="135" cy="80" r="7" fill="#000"/>
-      <!-- Smile -->
-      <path d="M60 120 Q100 150 140 120" stroke="#fff" stroke-width="4" fill="transparent"/>
-    </svg>
-  </div>
-  <div class="hero-details" id="heroDetails">
-    <h1>Hey there! 👋 I’m Shakil Ahmed</h1>
-    <p>I craft modern, futuristic, and high-performance web experiences.</p>
-  </div>
-</div>
+<!-- HERO -->
+<header class="hero" id="hero">
+  <div class="hero-inner">
 
-<!-- About -->
+    <!-- Avatar -->
+    <div class="avatar-wrap" id="avatarWrap" style="left:50%; top:50%; position:relative;">
+      <div class="avatar-card" aria-hidden="true">
+        <!-- Human SVG (stylized friendly) -->
+        <svg id="humanAvatar" viewBox="0 0 360 420" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" >
+          <!-- background neck/shoulders -->
+          <defs>
+            <linearGradient id="skinGrad" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stop-color="#ffd6b6"/>
+              <stop offset="1" stop-color="#ffc8a0"/>
+            </linearGradient>
+            <linearGradient id="hairGrad" x1="0" x2="1">
+              <stop offset="0" stop-color="#1f1b27"/>
+              <stop offset="1" stop-color="#372a4f"/>
+            </linearGradient>
+            <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+              <feDropShadow dx="0" dy="20" stdDeviation="22" flood-color="#000" flood-opacity="0.45"/>
+            </filter>
+          </defs>
+
+          <!-- shoulders -->
+          <g transform="translate(40,260)">
+            <ellipse cx="140" cy="82" rx="120" ry="62" fill="#0b0b0d" opacity="0.85"/>
+          </g>
+
+          <!-- body shirt -->
+          <g transform="translate(60,220)">
+            <path d="M20 20 C 20 80, 260 80, 260 20 L 260 100 C 150 150, 20 120, 20 100 Z" fill="url(#hairGrad)" opacity="0.12"/>
+          </g>
+
+          <!-- head / skin -->
+          <g transform="translate(70,20)">
+            <ellipse id="face" cx="120" cy="120" rx="100" ry="110" fill="url(#skinGrad)" stroke="#000" stroke-opacity="0.03" />
+          </g>
+
+          <!-- hair -->
+          <g id="hair" transform="translate(70,12)">
+            <path d="M20 90 C 30 10, 210 10, 240 92 C 220 64, 180 26, 120 30 C70 32,40 56,20 90Z" fill="url(#hairGrad)"/>
+          </g>
+
+          <!-- eyes group (left and right eye whites and pupils) -->
+          <g id="eyes" transform="translate(70,12)">
+            <!-- left eye white -->
+            <ellipse id="eyeL" cx="85" cy="115" rx="20" ry="14" fill="#ffffff"/>
+            <!-- left pupil (we will move cx/cy) -->
+            <circle id="pupilL" cx="85" cy="115" r="6" fill="#111"/>
+            <!-- right eye white -->
+            <ellipse id="eyeR" cx="155" cy="115" rx="20" ry="14" fill="#ffffff"/>
+            <!-- right pupil -->
+            <circle id="pupilR" cx="155" cy="115" r="6" fill="#111"/>
+            <!-- small glossy highlight on each eye -->
+            <circle cx="79" cy="109" r="3" fill="rgba(255,255,255,0.8)"/>
+            <circle cx="149" cy="109" r="3" fill="rgba(255,255,255,0.8)"/>
+          </g>
+
+          <!-- nose -->
+          <g transform="translate(70,12)">
+            <path d="M120 132 q-6 14 -2 26" stroke="#c27f5e" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </g>
+
+          <!-- mouth -->
+          <g transform="translate(70,12)">
+            <path id="mouth" d="M110 160 q20 18 40 0" stroke="#b24f4f" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+
+          <!-- subtle blush -->
+          <g transform="translate(70,12)" opacity="0.4">
+            <ellipse cx="70" cy="140" rx="12" ry="6" fill="#ff9d9d"/>
+            <ellipse cx="190" cy="140" rx="12" ry="6" fill="#ff9d9d"/>
+          </g>
+
+        </svg>
+      </div>
+    </div>
+
+    <!-- Hero text (hidden until scroll) -->
+    <div class="hero-details" id="heroDetails">
+      <div class="hero-title">Hey there! 👋 I'm <span style="color:transparent;background:linear-gradient(90deg,#00ffd0,#c400ff,#00ffd0);-webkit-background-clip:text">Shakil Ahmed</span></div>
+      <div class="hero-sub">A fullstack developer building modern, fast and elegant web experiences — front-to-back. I craft interfaces with care, performance and delightful motion.</div>
+
+      <div class="meta-row">
+        <div class="badge">Fullstack Developer</div>
+        <div class="badge">React • Node • SQL</div>
+        <div class="badge">Open to work</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- sample sections -->
 <section id="about">
   <h2>About Me</h2>
-  <p>I’m a passionate fullstack developer focused on delivering creative, scalable, and high-quality digital products.</p>
+  <p>I'm Shakil Ahmed — I focus on pragmatic, accessible and fast web apps. I love clean code, reusable components and meaningful UI/UX.</p>
 </section>
 
-<section id="achievements"><h2>Achievements</h2><p>Coming soon...</p></section>
-<section id="work"><h2>Work</h2><p>Coming soon...</p></section>
-<section id="contact"><h2>Contact</h2><p>Let's build something amazing together!</p></section>
+<section id="achievements">
+  <h2>Achievements</h2>
+  <p>Coming soon — certificates, contests, and career highlights.</p>
+</section>
 
-<!-- Cursor -->
-<div class="cursor"></div>
+<section id="work">
+  <h2>Work</h2>
+  <p>Project gallery will be placed here.</p>
+</section>
+
+<section id="contact">
+  <h2>Contact</h2>
+  <p>Let's talk — email, socials or a quick call. Links in the footer / navbar.</p>
+</section>
+
+<!-- glowing custom cursor -->
+<div class="cursor" id="cursorEl" aria-hidden="true"></div>
 
 <script>
-// Preloader
+/* ---------- Preloader hide ---------- */
 window.addEventListener('load', () => {
   setTimeout(() => {
-    document.getElementById('preloader').style.display = 'none';
-  }, 3500);
+    const pre = document.getElementById('preloader');
+    if (pre) pre.style.opacity = '0';
+    setTimeout(()=>pre && pre.remove(), 450);
+  }, 900); // shorter: page already loaded assets
 });
 
-// Cursor follow
-document.addEventListener('mousemove', e => {
-  const cursor = document.querySelector('.cursor');
+/* ---------- Custom cursor ---------- */
+const cursor = document.getElementById('cursorEl');
+document.addEventListener('mousemove', (e) => {
   cursor.style.left = e.clientX + 'px';
   cursor.style.top = e.clientY + 'px';
 });
 
-// Avatar eye tracking
-document.addEventListener('mousemove', e => {
-  const rect = document.querySelector('.avatar').getBoundingClientRect();
-  const centerX = rect.left + rect.width / 2;
-  const centerY = rect.top + rect.height / 2;
-  
-  const dx = e.clientX - centerX;
-  const dy = e.clientY - centerY;
-  
-  const angle = Math.atan2(dy, dx);
-  const distance = Math.min(5, Math.hypot(dx, dy) / 40);
+/* ---------- Eye tracking ---------- */
+/* We'll compute pupil positions looking toward pointer, clamped to small radius */
+const pupL = document.getElementById('pupilL');
+const pupR = document.getElementById('pupilR');
+const svg = document.getElementById('humanAvatar');
+const avatarWrap = document.getElementById('avatarWrap');
 
-  const pupilLeft = document.getElementById('pupilLeft');
-  const pupilRight = document.getElementById('pupilRight');
+/* read initial pupil centers from markup */
+let pupilLBase = { x: 85, y: 115 };
+let pupilRBase = { x: 155, y: 115 };
 
-  pupilLeft.setAttribute('cx', 65 + Math.cos(angle) * distance);
-  pupilLeft.setAttribute('cy', 80 + Math.sin(angle) * distance);
-  pupilRight.setAttribute('cx', 135 + Math.cos(angle) * distance);
-  pupilRight.setAttribute('cy', 80 + Math.sin(angle) * distance);
+/* map mouse movement to pupil offset with smoothing */
+let target = { x: 0, y: 0 }, current = { x: 0, y: 0 };
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+function updatePupils() {
+  // smooth approach
+  current.x += (target.x - current.x) * 0.16;
+  current.y += (target.y - current.y) * 0.16;
+
+  // apply to pupils (SVG coords)
+  const lcx = pupilLBase.x + current.x;
+  const lcy = pupilLBase.y + current.y;
+  const rcx = pupilRBase.x + current.x;
+  const rcy = pupilRBase.y + current.y;
+
+  pupL.setAttribute('cx', lcx);
+  pupL.setAttribute('cy', lcy);
+  pupR.setAttribute('cx', rcx);
+  pupR.setAttribute('cy', rcy);
+
+  requestAnimationFrame(updatePupils);
+}
+
+updatePupils();
+
+document.addEventListener('mousemove', (ev) => {
+  // get avatar bounding box in screen space
+  const rect = svg.getBoundingClientRect();
+  // convert mouse to local coordinates relative to eyes center
+  const eyesCenterX = rect.left + rect.width * 0.5;
+  const eyesCenterY = rect.top + rect.height * 0.38; // approximate vertical center of eyes
+
+  const dx = ev.clientX - eyesCenterX;
+  const dy = ev.clientY - eyesCenterY;
+
+  // normalize by size and clamp to small radius (max offset 6px)
+  const rx = clamp(dx / rect.width * 40, -6, 6);
+  const ry = clamp(dy / rect.height * 40, -6, 6);
+
+  target.x = rx;
+  target.y = ry;
 });
 
-// Scroll-triggered avatar shrink
-window.addEventListener('scroll', () => {
-  const heroHeight = document.querySelector('.hero').offsetHeight;
-  const scrollY = window.scrollY;
-  const avatarWrapper = document.getElementById('avatarWrapper');
-  const heroDetails = document.getElementById('heroDetails');
-  
-  if (scrollY > heroHeight / 4) {
-    avatarWrapper.style.transform = 'translate(-150%, -50%) scale(0.5)';
-    avatarWrapper.style.left = '10%';
-    heroDetails.style.right = '10%';
-    heroDetails.style.opacity = '1';
+/* ---------- Subtle head tilt toward cursor horizontally ---------- */
+const hair = document.getElementById('hair');
+const face = document.getElementById('face');
+const avatarCard = document.querySelector('.avatar-card');
+
+document.addEventListener('mousemove', (e) => {
+  const rect = avatarWrap.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const pct = (e.clientX - cx) / rect.width; // -0.5 .. 0.5
+  const tilt = clamp(pct * 12, -6, 6);
+  avatarCard.style.transform = `translateY(${ -6 + Math.abs(tilt/6) }px) rotate(${ tilt }deg)`;
+});
+
+/* ---------- Scroll behavior: shrink avatar + show details ---------- */
+const hero = document.getElementById('hero');
+const heroDetails = document.getElementById('heroDetails');
+
+function onScroll() {
+  const heroRect = hero.getBoundingClientRect();
+  const vh = window.innerHeight;
+  const scrolled = Math.min(1, Math.max(0, -(heroRect.top) / (vh * 0.36))); // 0 -> 1
+  const wrap = document.getElementById('avatarWrap');
+
+  if (scrolled >= 0.18) {
+    // apply left-position class for compact layout
+    if (!wrap.classList.contains('avatar-left')) wrap.classList.add('avatar-left');
+    if (!heroDetails.classList.contains('show')) heroDetails.classList.add('show');
   } else {
-    avatarWrapper.style.transform = 'translate(-50%, -50%) scale(1)';
-    avatarWrapper.style.left = '50%';
-    heroDetails.style.right = '-100%';
-    heroDetails.style.opacity = '0';
+    wrap.classList.remove('avatar-left');
+    heroDetails.classList.remove('show');
   }
-});
 
-// Section reveal
-const sections = document.querySelectorAll('section');
-const revealOnScroll = () => {
-  const triggerBottom = window.innerHeight * 0.85;
-  sections.forEach(sec => {
-    const boxTop = sec.getBoundingClientRect().top;
-    if (boxTop < triggerBottom) sec.classList.add('visible');
+  // reveal sections
+  document.querySelectorAll('section').forEach(section => {
+    const r = section.getBoundingClientRect();
+    if (r.top < window.innerHeight * 0.82) section.classList.add('visible');
   });
-};
-window.addEventListener('scroll', revealOnScroll);
-revealOnScroll();
+}
+window.addEventListener('scroll', onScroll);
+onScroll();
+
+/* ---------- Optional: small welcoming wave animation on first load ---------- */
+(function initialWave(){
+  const mouth = document.getElementById('mouth');
+  if (!mouth) return;
+  // animate mouth slightly to create welcoming smile pulse
+  mouth.animate([
+    { transform: 'scaleY(1)' },
+    { transform: 'scaleY(1.08)' },
+    { transform: 'scaleY(1)' }
+  ],{
+    duration: 1200,
+    iterations: 1,
+    easing: 'ease-in-out',
+    delay: 600
+  });
+})();
+
 </script>
 </body>
 </html>
