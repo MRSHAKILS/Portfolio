@@ -1,106 +1,379 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <title>Shakil Ahmed Portfolio — 3D Avatar</title>
-  <style>
-    body { margin:0; overflow-x:hidden; font-family:'Poppins',sans-serif; background:#050507; color:#e6eef8; }
-    nav { position:sticky; top:0; backdrop-filter:blur(8px); background:rgba(10,10,10,0.6); padding:1rem 2rem; z-index:10;
-          display:flex; justify-content:space-between; align-items:center; }
-    nav a { margin-left:1.5rem; color:#e6eef8; position:relative; text-decoration:none; }
-    nav a::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px; background:#00ffd0; transition:width .4s ease; }
-    nav a:hover::after { width:100%; }
-    #hero { position:relative; height:100vh; display:flex; align-items:center; justify-content:center; flex-wrap:wrap; padding:0 1rem; }
-    canvas { width:320px; height:450px; transition:transform 1.2s ease; }
-    .avatar-left { transform:scale(0.5) translateX(-80%) !important; }
-    .hero-text { max-width:500px; opacity:0; transform:translateX(60px); transition:opacity 1.2s ease, transform 1.2s ease; }
-    .hero-text.show { opacity:1; transform:translateX(0); }
-    .section { opacity:0; transform:translateY(50px); transition:opacity .9s ease, transform .9s ease; padding:4rem 1.5rem; text-align:center; }
-    .section.visible { opacity:1; transform:translateY(0); }
-    .badge { display:inline-block; padding:.5rem 1rem; border:1px solid #00ffd0; border-radius:20px; margin:.5rem; transition:transform .3s ease, background .3s ease; cursor:default; }
-    .badge:hover { transform:scale(1.1); background:rgba(0,255,208,0.1); }
-    @media (max-width:768px) {
-      .avatar-left { transform:scale(0.7) translateX(-20%) !important; }
-      #hero { flex-direction:column; }
-      .hero-text { width:100%; text-align:center; transform:none; }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Shakil Ahmed — Portfolio (3D Avatar)</title>
+<style>
+  /* ------- base ------- */
+  *{box-sizing:border-box} html,body{height:100%}
+  body{
+    margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    background:#050507; color:#e6eef8; overflow-x:hidden;
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  }
+
+  /* ------- preloader ------- */
+  #preloader{position:fixed; inset:0; background:#050507; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; z-index:9999}
+  .pre-title{
+    font-weight:700; letter-spacing:.2px; font-size:1.05rem;
+    background:linear-gradient(90deg,#00ffd0,#c400ff,#00ffd0);
+    background-size:200%; -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    animation:grad 6s linear infinite;
+  }
+  .bar{width:min(72vw,360px); height:8px; background:#0e0e11; border-radius:999px; overflow:hidden}
+  .fill{height:100%; width:0%; background:linear-gradient(90deg,#00ffd0,#c400ff); transition:width .2s ease; border-radius:999px}
+  .note{font-size:.85rem; color:#a9bed0; opacity:.9}
+  @keyframes grad{0%{background-position:200%}100%{background-position:0}}
+
+  /* ------- nav ------- */
+  nav{
+    position:sticky; top:0; z-index:50; padding:14px 22px;
+    display:flex; align-items:center; justify-content:space-between;
+    backdrop-filter:blur(8px); background:rgba(12,12,14,.45); border-bottom:1px solid rgba(255,255,255,.04)
+  }
+  .logo{color:#00ffd0; font-weight:800; letter-spacing:.6px}
+  .navlinks{display:flex; gap:18px}
+  .navlinks a{
+    color:#e6eef8; text-decoration:none; position:relative; padding:6px 2px; font-weight:600
+  }
+  .navlinks a::after{
+    content:""; position:absolute; left:0; bottom:-6px; width:0; height:2px; background:#00ffd0; transition:width .35s ease
+  }
+  .navlinks a:hover::after{width:100%}
+
+  /* ------- hero ------- */
+  .hero{min-height:100vh; display:flex; align-items:center; justify-content:center; position:relative; padding:28px 18px}
+  .hero-inner{width:100%; max-width:1200px; display:flex; align-items:center; justify-content:center; gap:42px; flex-wrap:wrap}
+  .avatarWrap{
+    position:relative; width:340px; height:480px;
+    transition:transform 1.2s cubic-bezier(.2,.9,.2,1), left 1.2s cubic-bezier(.2,.9,.2,1), top 1.2s ease;
+    transform-origin:center;
+  }
+  #avatarCanvas{width:100%; height:100%; display:block}
+  /* scrolled state: shrink & move left */
+  .avatar-left{ transform:translateX(-22%) scale(.55) !important }
+  .hero-text{
+    max-width:560px; opacity:0; transform:translateX(64px);
+    transition:opacity 1.2s ease, transform 1.2s ease;
+  }
+  .hero-text.show{opacity:1; transform:translateX(0)}
+  .title{
+    font-size:clamp(1.9rem,4.6vw,3rem); line-height:1.02; font-weight:800;
+    background:linear-gradient(90deg,#00ffd0,#c400ff,#00ffd0);
+    background-size:200%; -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    animation:grad 8s linear infinite;
+  }
+  .sub{margin-top:12px; color:#b7cadc; font-size:1.05rem}
+  .meta{margin-top:18px; display:flex; flex-wrap:wrap; gap:10px}
+  .badge{
+    display:inline-block; padding:8px 12px; border:1px solid rgba(0,255,208,.4); border-radius:999px; color:#c7ffee; font-weight:700; font-size:.95rem;
+    background:rgba(255,255,255,.03);
+    transition:transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s ease, border-color .28s ease
+  }
+  .badge:hover{ transform:translateY(-2px) scale(1.06); box-shadow:0 8px 24px rgba(0,255,208,.12); border-color:#00ffd0 }
+
+  /* ------- sections ------- */
+  section.section{ padding:64px 18px; opacity:0; transform:translateY(36px); transition:opacity .9s ease, transform .9s ease }
+  section.section.visible{ opacity:1; transform:translateY(0) }
+  section.section h2{ color:#00ffd0; text-align:center; font-size:1.4rem; margin-bottom:14px }
+  section.section p{ color:#b8c7d6; max-width:800px; margin:0 auto }
+
+  /* ------- footer (optional minimal) ------- */
+  footer{padding:28px; text-align:center; color:#8696a8; border-top:1px solid rgba(255,255,255,.04)}
+
+  /* ------- responsive ------- */
+  @media (max-width:900px){
+    .hero-inner{flex-direction:column; gap:22px}
+    .avatar-left{ transform:translateX(0) scale(.72) !important }
+    .hero-text{ text-align:center; transform:none }
+  }
+</style>
 </head>
 <body>
-  <nav>
-    <span class="logo">shakillinit</span>
-    <div>
-      <a href="#achievements">Achievements</a>
-      <a href="#work">Work</a>
-      <a href="#contact">Contact</a>
+
+<!-- Preloader -->
+<div id="preloader" role="status" aria-live="polite">
+  <div class="pre-title">Loading your experience…</div>
+  <div class="bar"><div class="fill" id="barFill"></div></div>
+  <div class="note" id="barNote">Initializing…</div>
+</div>
+
+<!-- Nav -->
+<nav>
+  <div class="logo">shakillinit</div>
+  <div class="navlinks">
+    <a href="#achievements">Achievements</a>
+    <a href="#work">Work</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero" id="hero">
+  <div class="hero-inner">
+    <div class="avatarWrap" id="avatarWrap">
+      <canvas id="avatarCanvas"></canvas>
     </div>
-  </nav>
-  <section id="hero">
-    <canvas id="avatarCanvas"></canvas>
     <div class="hero-text" id="heroText">
-      <h1 style="font-size:2.8rem; background:linear-gradient(90deg,#00ffd0,#c400ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; animation:grad 6s linear infinite;">Hey there! I’m Shakil Ahmed</h1>
-      <p>I build modern, futuristic, and performant web experiences—front-to-back.</p>
+      <div class="title">Hey there! 👋 I’m Shakil Ahmed</div>
+      <div class="sub">Fullstack developer crafting modern, performant web experiences with a sleek, futuristic feel.</div>
+      <div class="meta">
+        <span class="badge">Full-Stack</span>
+        <span class="badge">React • Node</span>
+        <span class="badge">TypeScript</span>
+        <span class="badge">Open to Work</span>
+      </div>
     </div>
-  </section>
-  <section id="about" class="section"><h2>About Me</h2><p>I'm a fullstack developer focused on elegant, scalable, and accessible applications.</p></section>
-  <section id="achievements" class="section"><h2>Achievements</h2><p>Certifications, highlights, milestones coming soon.</p></section>
-  <section id="work" class="section"><h2>Work</h2><p>Here's a showcase of my projects and contributions.</p></section>
-  <section id="skills" class="section"><h2>Languages & Tools</h2>
-    <div><span class="badge">JavaScript</span><span class="badge">React</span><span class="badge">Node.js</span><span class="badge">MongoDB</span></div>
-  </section>
-  <section id="contact" class="section"><h2>Contact</h2><p>Email: your.email@example.com</p></section>
+  </div>
+</header>
 
-  <!-- Three.js -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/loaders/GLTFLoader.js"></script>
-  <script>
-    const canvas = document.getElementById('avatarCanvas');
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true });
-    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(25, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
-    camera.position.set(0, 1.6, 2.4);
-    scene.add(new THREE.HemisphereLight(0xffffff, 0x444444));
-    const dir = new THREE.DirectionalLight(0xffffff, 0.8); dir.position.set(0,4,4); scene.add(dir);
+<!-- Content sections -->
+<section id="about" class="section">
+  <h2>About Me</h2>
+  <p>I focus on clean architecture, reusable UI, and smooth motion. My superpower is bringing clarity to complex products — and shipping fast without breaking quality.</p>
+</section>
 
-    let avatar, blinkMesh, blinkTimer = 0;
-    const loader = new THREE.GLTFLoader();
-    loader.load('https://models.readyplayer.me/68964355ef2ebda3c28e71d3.glb', gltf => {
+<section id="achievements" class="section">
+  <h2>Achievements</h2>
+  <p>Highlights coming soon — certifications, awards, and key milestones.</p>
+</section>
+
+<section id="work" class="section">
+  <h2>Work</h2>
+  <p>Project gallery and case studies — performance metrics, stack, and impact summaries.</p>
+</section>
+
+<section id="skills" class="section">
+  <h2>Languages & Tools</h2>
+  <p>
+    <span class="badge">JavaScript</span>
+    <span class="badge">TypeScript</span>
+    <span class="badge">React</span>
+    <span class="badge">Node</span>
+    <span class="badge">Express</span>
+    <span class="badge">MongoDB</span>
+    <span class="badge">PostgreSQL</span>
+    <span class="badge">Tailwind</span>
+    <span class="badge">Three.js</span>
+    <span class="badge">Git / GitHub</span>
+  </p>
+</section>
+
+<section id="contact" class="section">
+  <h2>Contact</h2>
+  <p>Reach me via <a href="mailto:you@example.com" style="color:#00ffd0; text-decoration:none">email</a> or <a href="https://github.com/MRSHAKILS" target="_blank" style="color:#00ffd0; text-decoration:none">GitHub</a>.</p>
+</section>
+
+<footer>© <span id="yr"></span> Shakil Ahmed. Built with care.</footer>
+
+<!-- Three.js + Loader -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/js/loaders/GLTFLoader.js"></script>
+
+<script>
+  // ------ footer year ------
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // ------ three setup ------
+  const canvas = document.getElementById('avatarCanvas');
+  const wrap = document.getElementById('avatarWrap');
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true });
+  const scene = new THREE.Scene();
+
+  function setRendererSize(){
+    const { clientWidth:w, clientHeight:h } = canvas;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+
+  const camera = new THREE.PerspectiveCamera(25, 340/480, 0.1, 100);
+  camera.position.set(0, 1.55, 2.3);
+
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x333333, 1.0));
+  const dir = new THREE.DirectionalLight(0xffffff, 0.9);
+  dir.position.set(0, 4, 4);
+  dir.castShadow = false;
+  scene.add(dir);
+
+  // ------ loading manager for preloader ------
+  const fill = document.getElementById('barFill');
+  const note = document.getElementById('barNote');
+  const manager = new THREE.LoadingManager();
+  manager.onStart = () => { fill.style.width = '10%'; note.textContent = 'Loading 3D avatar…'; };
+  manager.onProgress = (url, loaded, total) => {
+    const pct = Math.round((loaded / total) * 100);
+    fill.style.width = pct + '%';
+    note.textContent = `Loading assets… ${pct}%`;
+  };
+  manager.onLoad = () => {
+    fill.style.width = '100%';
+    note.textContent = 'Done';
+    setTimeout(() => {
+      const pre = document.getElementById('preloader');
+      pre.style.opacity = '0';
+      setTimeout(() => pre.remove(), 400);
+    }, 350);
+  };
+
+  // ------ load avatar ------
+  const loader = new THREE.GLTFLoader(manager);
+  let avatar = null, headBone = null, leftEyeBone = null, rightEyeBone = null;
+  // Blink morphs (RPM varies: EyesClosed, eyeBlinkLeft, eyeBlinkRight, blendShape names etc.)
+  let blinkLeft = null, blinkRight = null;
+
+  loader.load(
+    'https://models.readyplayer.me/68964355ef2ebda3c28e71d3.glb',
+    (gltf) => {
       avatar = gltf.scene;
-      avatar.scale.set(1.2, 1.2, 1.2);
-      avatar.rotation.y = Math.PI;
-      scene.add(avatar);
-
-      // find mesh with morph target "eyesClosed" for blinking if available
-      avatar.traverse(o => {
-        if (o.isMesh && o.morphTargetDictionary && o.morphTargetDictionary['EyesClosed']) {
-          blinkMesh = o;
+      avatar.traverse(n => {
+        // soften metallic for more natural look
+        if (n.isMesh && n.material) {
+          const m = n.material;
+          if (m.metalness !== undefined) m.metalness = Math.min(m.metalness, 0.2);
+          if (m.roughness !== undefined) m.roughness = Math.max(m.roughness, 0.6);
         }
       });
-    });
 
-    function animate() {
-      requestAnimationFrame(animate);
-      if (blinkMesh) {
-        blinkTimer += 0.02;
-        if (blinkTimer > 5 && Math.random() > 0.98) { blinkTimer = 0; }
-        const t = (Math.sin(blinkTimer * Math.PI * 2) + 1) / 2;
-        blinkMesh.morphTargetInfluences[blinkMesh.morphTargetDictionary['EyesClosed']] = t > 0.6 ? (t - 0.6) * 2.5 : 0;
-      }
-      renderer.render(scene, camera);
-    }
-    animate();
+      avatar.scale.set(1.18, 1.18, 1.18);
+      avatar.rotation.y = Math.PI; // face camera
+      scene.add(avatar);
 
-    window.addEventListener('scroll', () => {
-      const heroRect = document.getElementById('hero').getBoundingClientRect();
-      const trigger = window.innerHeight * 0.3;
-      const heroText = document.getElementById('heroText');
-      canvas.classList.toggle('avatar-left', heroRect.top < trigger);
-      heroText.classList.toggle('show', heroRect.top < trigger);
-      document.querySelectorAll('.section').forEach(sec => {
-        if (sec.getBoundingClientRect().top < window.innerHeight * 0.8) sec.classList.add('visible');
+      // Find bones
+      avatar.traverse(o => {
+        if (o.isBone || o.isObject3D) {
+          const name = (o.name || '').toLowerCase();
+          if (!headBone && (name.includes('head') || name.includes('neck'))) headBone = o;
+          if (!leftEyeBone && (name.includes('eye') && name.includes('l'))) leftEyeBone = o;
+          if (!rightEyeBone && (name.includes('eye') && name.includes('r'))) rightEyeBone = o;
+        }
+        // Find blink morph targets on meshes
+        if (o.isMesh && o.morphTargetDictionary && o.morphTargetInfluences) {
+          const dict = o.morphTargetDictionary;
+          const keys = Object.keys(dict).reduce((a,k)=>{a[k.toLowerCase()] = dict[k]; return a;}, {});
+          // possible names
+          const blinkLKey = ['eyesclosedleft','eye_blink_l','eyeblinkleft','eyeblink_l','blendshapes.eyeBlinkLeft','blinkleft'].find(k=>k in keys);
+          const blinkRKey = ['eyesclosedright','eye_blink_r','eyeblinkright','eyeblink_r','blendshapes.eyeBlinkRight','blinkright'].find(k=>k in keys);
+          const bothKey   = ['eyesclosed','eyeclose','blink','blendshapes.eyesClosed'].find(k=>k in keys);
+
+          if (blinkLKey || bothKey){
+            blinkLeft = { mesh:o, index: keys[blinkLKey || bothKey] };
+          }
+          if (blinkRKey || bothKey){
+            blinkRight = { mesh:o, index: keys[blinkRKey || bothKey] };
+          }
+        }
       });
+    },
+    undefined,
+    (err) => { note.textContent = 'Failed to load avatar'; console.error(err); }
+  );
+
+  // ------ interaction: head & eyes track pointer ------
+  const mouse = { x:0, y:0 }; // normalized -1..1 across viewport of canvas area
+  function updateMouse(e){
+    const r = canvas.getBoundingClientRect();
+    const cx = (e.clientX - r.left) / r.width;
+    const cy = (e.clientY - r.top) / r.height;
+    mouse.x = (cx - 0.5) * 2;  // -1..1
+    mouse.y = (cy - 0.5) * 2;
+  }
+  window.addEventListener('mousemove', updateMouse);
+
+  // ------ scroll: move avatar left, reveal hero text ------
+  const hero = document.getElementById('hero');
+  const heroText = document.getElementById('heroText');
+  function onScroll(){
+    const rect = hero.getBoundingClientRect();
+    const trigger = window.innerHeight * 0.28;
+    if (rect.top < trigger){
+      wrap.classList.add('avatar-left');
+      heroText.classList.add('show');
+    } else {
+      wrap.classList.remove('avatar-left');
+      heroText.classList.remove('show');
+    }
+    // reveal sections
+    document.querySelectorAll('section.section').forEach(sec=>{
+      if (sec.getBoundingClientRect().top < window.innerHeight * 0.84) sec.classList.add('visible');
     });
-  </script>
+  }
+  window.addEventListener('scroll', onScroll);
+
+  // ------ resize ------
+  function onResize(){
+    setRendererSize();
+  }
+  window.addEventListener('resize', onResize);
+  setRendererSize();
+
+  // ------ animation loop ------
+  let blinkTimer = 0, nextBlink = 2 + Math.random()*3; // 2-5 seconds
+  function animate(){
+    requestAnimationFrame(animate);
+
+    // idle breathing (very subtle)
+    if (avatar){
+      const t = performance.now()*0.001;
+      const breathe = Math.sin(t*1.2)*0.004; // small scale pulse
+      avatar.scale.set(1.18 + breathe, 1.18 + breathe, 1.18 + breathe);
+
+      // Head + eyes track mouse (clamped small angles)
+      const maxHeadYaw = THREE.MathUtils.degToRad(10);
+      const maxHeadPitch = THREE.MathUtils.degToRad(8);
+      const maxEyeYaw = THREE.MathUtils.degToRad(14);
+      const maxEyePitch = THREE.MathUtils.degToRad(12);
+
+      // smooth follow
+      animate.targetX = animate.targetX ?? 0;
+      animate.targetY = animate.targetY ?? 0;
+      animate.targetX += (mouse.x - animate.targetX) * 0.08;
+      animate.targetY += (mouse.y - animate.targetY) * 0.08;
+
+      if (headBone){
+        headBone.rotation.y = THREE.MathUtils.clamp(-animate.targetX * 0.5, -maxHeadYaw, maxHeadYaw); // yaw
+        headBone.rotation.x = THREE.MathUtils.clamp( animate.targetY * 0.4, -maxHeadPitch, maxHeadPitch); // pitch
+      }
+      if (leftEyeBone){
+        leftEyeBone.rotation.y = THREE.MathUtils.clamp(-animate.targetX, -maxEyeYaw, maxEyeYaw);
+        leftEyeBone.rotation.x = THREE.MathUtils.clamp( animate.targetY, -maxEyePitch, maxEyePitch);
+      }
+      if (rightEyeBone){
+        rightEyeBone.rotation.y = THREE.MathUtils.clamp(-animate.targetX, -maxEyeYaw, maxEyeYaw);
+        rightEyeBone.rotation.x = THREE.MathUtils.clamp( animate.targetY, -maxEyePitch, maxEyePitch);
+      }
+
+      // blinking (if morphs found)
+      blinkTimer += renderer.info.render.frame ? 0.016 : 0.016; // ~60fps
+      if (blinkTimer > nextBlink){
+        const phase = (blinkTimer - nextBlink);
+        const dur = 0.18; // fast blink
+        let v = 0;
+        if (phase < dur){
+          // close (ease out)
+          v = Math.sin((phase/dur)*Math.PI);
+        } else if (phase < dur*1.6){
+          // open (ease in)
+          const k = (phase - dur) / (dur*0.6);
+          v = Math.sin((1 - k)*Math.PI);
+        } else {
+          // reset timer to new random
+          blinkTimer = 0; nextBlink = 2 + Math.random()*3;
+        }
+        const influence = Math.min(1, v);
+        if (blinkLeft) blinkLeft.mesh.morphTargetInfluences[blinkLeft.index] = influence;
+        if (blinkRight) blinkRight.mesh.morphTargetInfluences[blinkRight.index] = influence;
+      }
+    }
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  // initial triggers
+  onResize();
+  onScroll();
+</script>
 </body>
 </html>
