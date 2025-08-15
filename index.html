@@ -1,402 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Shakil Ahmed — Portfolio (Hero with Human Avatar)</title>
-<style>
-  /* ---------- RESET ---------- */
-  * { box-sizing: border-box; margin:0; padding:0; }
-  html,body { height:100%; }
-  body {
-    font-family: "Inter", "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    background: radial-gradient(1200px 600px at 10% 10%, rgba(0,255,204,0.03), transparent 8%),
-                radial-gradient(800px 400px at 90% 90%, rgba(255,0,255,0.02), transparent 8%),
-                #050507;
-    color: #e6eef8;
-    overflow-x: hidden;
-    cursor: none; /* we'll add custom cursor */
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-  }
-
-  /* ---------- PRELOADER (short) ---------- */
-  #preloader {
-    position: fixed; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column;
-    background:#050507; z-index:9999;
-  }
-  .loader-title {
-    font-weight:600; color:transparent;
-    background:linear-gradient(90deg,#00ffd0,#9b00ff,#00ffd0);
-    background-clip:text; -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    font-size:1.25rem; margin-bottom:14px; background-size:200%;
-    animation: preloadText 3s linear forwards;
-  }
-  .loader-bar { width:320px; height:6px; background:#0f0f10; border-radius:999px; overflow:hidden; }
-  .loader-bar > i { display:block; height:100%; width:0%; background:linear-gradient(90deg,#00ffd0,#9b00ff); animation:fill 3.4s ease forwards; border-radius:999px; }
-
-  @keyframes preloadText { 0% {opacity:0; transform:translateY(6px)} 50% {opacity:1} 100% {opacity:1} }
-  @keyframes fill { to { width:100%; } }
-
-  /* ---------- NAVBAR ---------- */
-  nav.navbar {
-    position: sticky; top:0; z-index:1000; display:flex; align-items:center; justify-content:space-between;
-    padding:12px 28px; backdrop-filter: blur(8px); background: rgba(18,18,20,0.35); border-bottom:1px solid rgba(255,255,255,0.03);
-  }
-  .logo { color:#00ffd0; font-weight:700; letter-spacing:0.6px; font-size:1.05rem; }
-  .navlinks { display:flex; gap:18px; list-style:none; align-items:center; }
-  .navlinks a { color: #e6eef8; text-decoration:none; padding:6px 0; position:relative; font-weight:500; }
-  .navlinks a::after { content:''; position:absolute; left:0; bottom:-6px; width:0; height:2px; background:#00ffd0; transition:width .28s ease; }
-  .navlinks a:hover::after { width:100%; }
-
-  /* ---------- LAYOUT ---------- */
-  .hero {
-    min-height:100vh; display:flex; align-items:center; justify-content:center; position:relative; padding:48px 28px;
-  }
-  .hero-inner {
-    width:100%; max-width:1200px; display:flex; align-items:center; justify-content:center; gap:48px; position:relative;
-  }
-
-  /* Avatar container (centered initially) */
-  .avatar-wrap {
-    width:320px; height:360px; position:relative; display:flex; align-items:center; justify-content:center;
-    transition: transform 0.7s cubic-bezier(.2,.9,.2,1), left 0.7s cubic-bezier(.2,.9,.2,1), top 0.7s ease;
-    transform-origin:center;
-  }
-
-  /* Human SVG styling (shadow, glass) */
-  .avatar-card {
-    width:100%; height:100%; border-radius:18px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    box-shadow: 0 6px 30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.02);
-    display:flex; align-items:center; justify-content:center; padding:20px;
-    backdrop-filter: blur(6px);
-  }
-
-  /* friendly pulse / breath */
-  .avatar-card { animation: breath 6s ease-in-out infinite; }
-  @keyframes breath {
-    0% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-6px) scale(1.01); }
-    100% { transform: translateY(0) scale(1); }
-  }
-
-  /* Hero details (hidden initially off-right) */
-  .hero-details {
-    flex:1; max-width:640px; min-height:260px; padding: 8px 12px; position:relative;
-    right:-100%; opacity:0; transform:translateX(24px); transition: right .7s cubic-bezier(.2,.9,.2,1), opacity .65s ease, transform .65s ease;
-  }
-  .hero-details.show { right:0; opacity:1; transform:translateX(0); }
-
-  .hero-title {
-    font-size: clamp(1.8rem, 4.2vw, 2.8rem); font-weight:700; line-height:1.02;
-    background: linear-gradient(90deg,#00ffd0,#c400ff,#00ffd0); background-size:200%;
-    -webkit-background-clip:text; -webkit-text-fill-color:transparent; animation:hGradient 6s linear infinite;
-  }
-  @keyframes hGradient { 0%{background-position:200%}100%{background-position:0} }
-
-  .hero-sub { margin-top:14px; color:#bed5e6; font-size:1.02rem; max-width:42ch; }
-
-  /* small badges & CTA */
-  .meta-row { margin-top:18px; display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
-  .badge { background: rgba(255,255,255,0.03); padding:8px 12px; border-radius:999px; color:#bfeee6; font-weight:600; font-size:.92rem; border:1px solid rgba(0,255,204,0.04); }
-
-  /* ---------- EYES (SVG handled in markup) ---------- */
-
-  /* Cursor */
-  .cursor {
-    position: fixed; width:18px; height:18px; border-radius:999px; z-index:4000; pointer-events:none;
-    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.6)), rgba(0,255,204,0.9);
-    box-shadow:0 0 12px rgba(0,255,204,0.12), 0 0 36px rgba(0,255,204,0.08);
-    transform: translate(-50%,-50%); transition: transform .06s linear;
-  }
-
-  /* ---------- SCROLLED STATE (avatar shrinks + moves left) ---------- */
-  .avatar-left {
-    transform: translate(-46%, -8%) scale(0.48) !important;
-    left: 6% !important;
-    top: 48% !important;
-  }
-
-  /* small screens */
-  @media (max-width:900px) {
-    .hero-inner { flex-direction:column-reverse; gap:20px; padding-top:28px; }
-    .avatar-wrap { width:260px; height:300px; }
-    .avatar-left { transform: translate(-50%,-8%) scale(0.6) !important; left: 6% !important; top: 30% !important; }
-    .hero-details { text-align:center; padding:0 6px; }
-  }
-
-  /* ---------- SECTIONS AFTER HERO ---------- */
-  section { padding: 64px 28px; opacity:0; transform: translateY(30px); transition: all .8s cubic-bezier(.2,.9,.2,1); }
-  section.visible { opacity:1; transform: translateY(0); }
-  section h2 { color:#00ffd0; text-align:center; font-size:1.4rem; margin-bottom:18px; }
-
-</style>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shakil Ahmed – Portfolio with 3D Avatar</title>
+  <style>
+    body { margin:0; overflow-x:hidden; font-family:'Poppins', sans-serif; background:#050507; color:#fff; }
+    #hero { position:relative; height:100vh; }
+    #avatarCanvas { position:absolute; top:50%; left:50%; width:320px; height:450px; transform:translate(-50%,-50%) scale(1); transition:transform 1s ease; }
+    .avatar-left { transform:translate(-20%,-30%) scale(0.5) !important; left:0 !important; top:50% !important; }
+    .hero-text { position:absolute; top:60%; right:-100%; transform:translateY(-50%); opacity:0; transition:right 1s ease, opacity 1s ease; max-width:600px; padding:1rem; }
+    .hero-text.show { right:5%; opacity:1; }
+    .section { opacity:0; transform:translateY(40px); transition:opacity .8s ease, transform .8s ease; padding:4rem 2rem; }
+    .section.visible { opacity:1; transform:translateY(0); }
+    .nav { position:sticky; top:0; background:rgba(20,20,20,0.5); padding:1rem; backdrop-filter:blur(6px); z-index:10; }
+    .nav a { color:#fff; margin-right:1rem; text-decoration:none; }
+    canvas { pointer-events:none; }
+  </style>
 </head>
 <body>
-
-<!-- PRELOADER -->
-<div id="preloader">
-  <div class="loader-title">Shakil Ahmed — Fullstack Developer</div>
-  <div class="loader-bar"><i></i></div>
-</div>
-
-<!-- NAV -->
-<nav class="navbar">
-  <div class="logo">shakillinit</div>
-  <ul class="navlinks" aria-label="main menu">
-    <li><a href="#achievements">Achievements</a></li>
-    <li><a href="#work">Work</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
-
-<!-- HERO -->
-<header class="hero" id="hero">
-  <div class="hero-inner">
-
-    <!-- Avatar -->
-    <div class="avatar-wrap" id="avatarWrap" style="left:50%; top:50%; position:relative;">
-      <div class="avatar-card" aria-hidden="true">
-        <!-- Human SVG (stylized friendly) -->
-        <svg id="humanAvatar" viewBox="0 0 360 420" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" >
-          <!-- background neck/shoulders -->
-          <defs>
-            <linearGradient id="skinGrad" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0" stop-color="#ffd6b6"/>
-              <stop offset="1" stop-color="#ffc8a0"/>
-            </linearGradient>
-            <linearGradient id="hairGrad" x1="0" x2="1">
-              <stop offset="0" stop-color="#1f1b27"/>
-              <stop offset="1" stop-color="#372a4f"/>
-            </linearGradient>
-            <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
-              <feDropShadow dx="0" dy="20" stdDeviation="22" flood-color="#000" flood-opacity="0.45"/>
-            </filter>
-          </defs>
-
-          <!-- shoulders -->
-          <g transform="translate(40,260)">
-            <ellipse cx="140" cy="82" rx="120" ry="62" fill="#0b0b0d" opacity="0.85"/>
-          </g>
-
-          <!-- body shirt -->
-          <g transform="translate(60,220)">
-            <path d="M20 20 C 20 80, 260 80, 260 20 L 260 100 C 150 150, 20 120, 20 100 Z" fill="url(#hairGrad)" opacity="0.12"/>
-          </g>
-
-          <!-- head / skin -->
-          <g transform="translate(70,20)">
-            <ellipse id="face" cx="120" cy="120" rx="100" ry="110" fill="url(#skinGrad)" stroke="#000" stroke-opacity="0.03" />
-          </g>
-
-          <!-- hair -->
-          <g id="hair" transform="translate(70,12)">
-            <path d="M20 90 C 30 10, 210 10, 240 92 C 220 64, 180 26, 120 30 C70 32,40 56,20 90Z" fill="url(#hairGrad)"/>
-          </g>
-
-          <!-- eyes group (left and right eye whites and pupils) -->
-          <g id="eyes" transform="translate(70,12)">
-            <!-- left eye white -->
-            <ellipse id="eyeL" cx="85" cy="115" rx="20" ry="14" fill="#ffffff"/>
-            <!-- left pupil (we will move cx/cy) -->
-            <circle id="pupilL" cx="85" cy="115" r="6" fill="#111"/>
-            <!-- right eye white -->
-            <ellipse id="eyeR" cx="155" cy="115" rx="20" ry="14" fill="#ffffff"/>
-            <!-- right pupil -->
-            <circle id="pupilR" cx="155" cy="115" r="6" fill="#111"/>
-            <!-- small glossy highlight on each eye -->
-            <circle cx="79" cy="109" r="3" fill="rgba(255,255,255,0.8)"/>
-            <circle cx="149" cy="109" r="3" fill="rgba(255,255,255,0.8)"/>
-          </g>
-
-          <!-- nose -->
-          <g transform="translate(70,12)">
-            <path d="M120 132 q-6 14 -2 26" stroke="#c27f5e" stroke-width="2" fill="none" stroke-linecap="round"/>
-          </g>
-
-          <!-- mouth -->
-          <g transform="translate(70,12)">
-            <path id="mouth" d="M110 160 q20 18 40 0" stroke="#b24f4f" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-          </g>
-
-          <!-- subtle blush -->
-          <g transform="translate(70,12)" opacity="0.4">
-            <ellipse cx="70" cy="140" rx="12" ry="6" fill="#ff9d9d"/>
-            <ellipse cx="190" cy="140" rx="12" ry="6" fill="#ff9d9d"/>
-          </g>
-
-        </svg>
-      </div>
-    </div>
-
-    <!-- Hero text (hidden until scroll) -->
-    <div class="hero-details" id="heroDetails">
-      <div class="hero-title">Hey there! 👋 I'm <span style="color:transparent;background:linear-gradient(90deg,#00ffd0,#c400ff,#00ffd0);-webkit-background-clip:text">Shakil Ahmed</span></div>
-      <div class="hero-sub">A fullstack developer building modern, fast and elegant web experiences — front-to-back. I craft interfaces with care, performance and delightful motion.</div>
-
-      <div class="meta-row">
-        <div class="badge">Fullstack Developer</div>
-        <div class="badge">React • Node • SQL</div>
-        <div class="badge">Open to work</div>
-      </div>
+  <nav class="nav"><span class="logo">shakillinit</span><a href="#achievements">Achievements</a><a href="#work">Work</a><a href="#contact">Contact</a></nav>
+  <div id="hero">
+    <canvas id="avatarCanvas"></canvas>
+    <div class="hero-text" id="heroText">
+      <h1 style="font-size:2.5rem; background:linear-gradient(90deg,#00ffcc,#ff00ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent; animation: gradient 6s infinite;">Hey there! I’m Shakil Ahmed</h1>
+      <p>I build modern, futuristic and performant web experiences.</p>
     </div>
   </div>
-</header>
+  <section id="about" class="section"><h2>About Me</h2><p>I'm a passionate fullstack developer ...</p></section>
+  <section id="achievements" class="section"><h2>Achievements</h2><p>...</p></section>
+  <section id="work" class="section"><h2>Work</h2><p>...</p></section>
+  <section id="contact" class="section"><h2>Contact</h2><p>...</p></section>
 
-<!-- sample sections -->
-<section id="about">
-  <h2>About Me</h2>
-  <p>I'm Shakil Ahmed — I focus on pragmatic, accessible and fast web apps. I love clean code, reusable components and meaningful UI/UX.</p>
-</section>
+  <!-- three.js from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/loaders/GLTFLoader.js"></script>
+  <script>
+    // three.js setup
+    const canvas = document.getElementById('avatarCanvas');
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(25, canvas.clientWidth/canvas.clientHeight, 0.1, 1000);
+    camera.position.set(0,1.6,2.3);
+    const light = new THREE.HemisphereLight(0xffffff, 0x444444);
+    scene.add(light);
+    const dir = new THREE.DirectionalLight(0xffffff, 1);
+    dir.position.set(0,4,4);
+    scene.add(dir);
 
-<section id="achievements">
-  <h2>Achievements</h2>
-  <p>Coming soon — certificates, contests, and career highlights.</p>
-</section>
+    // Load your GLB model (replace with your ReadyPlayerMe URL)
+    const loader = new THREE.GLTFLoader();
+    loader.load('YOUR_AVATAR_GLB_URL.glb', gltf => {
+      const avatar = gltf.scene;
+      avatar.scale.set(1.2,1.2,1.2);
+      avatar.rotation.y = Math.PI; // face camera
+      scene.add(avatar);
 
-<section id="work">
-  <h2>Work</h2>
-  <p>Project gallery will be placed here.</p>
-</section>
+      function animate() {
+        renderer.render(scene, camera);
+        requestAnimationFrame(animate);
+      }
+      animate();
+    });
 
-<section id="contact">
-  <h2>Contact</h2>
-  <p>Let's talk — email, socials or a quick call. Links in the footer / navbar.</p>
-</section>
+    window.addEventListener('scroll', () => {
+      const hero = document.getElementById('hero');
+      const rect = hero.getBoundingClientRect();
+      const trigger = window.innerHeight * 0.3;
+      const canvasEl = canvas;
+      const heroText = document.getElementById('heroText');
+      if (rect.top < trigger) {
+        canvasEl.classList.add('avatar-left');
+        heroText.classList.add('show');
+      } else {
+        canvasEl.classList.remove('avatar-left');
+        heroText.classList.remove('show');
+      }
 
-<!-- glowing custom cursor -->
-<div class="cursor" id="cursorEl" aria-hidden="true"></div>
-
-<script>
-/* ---------- Preloader hide ---------- */
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    const pre = document.getElementById('preloader');
-    if (pre) pre.style.opacity = '0';
-    setTimeout(()=>pre && pre.remove(), 450);
-  }, 900); // shorter: page already loaded assets
-});
-
-/* ---------- Custom cursor ---------- */
-const cursor = document.getElementById('cursorEl');
-document.addEventListener('mousemove', (e) => {
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
-});
-
-/* ---------- Eye tracking ---------- */
-/* We'll compute pupil positions looking toward pointer, clamped to small radius */
-const pupL = document.getElementById('pupilL');
-const pupR = document.getElementById('pupilR');
-const svg = document.getElementById('humanAvatar');
-const avatarWrap = document.getElementById('avatarWrap');
-
-/* read initial pupil centers from markup */
-let pupilLBase = { x: 85, y: 115 };
-let pupilRBase = { x: 155, y: 115 };
-
-/* map mouse movement to pupil offset with smoothing */
-let target = { x: 0, y: 0 }, current = { x: 0, y: 0 };
-const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-
-function updatePupils() {
-  // smooth approach
-  current.x += (target.x - current.x) * 0.16;
-  current.y += (target.y - current.y) * 0.16;
-
-  // apply to pupils (SVG coords)
-  const lcx = pupilLBase.x + current.x;
-  const lcy = pupilLBase.y + current.y;
-  const rcx = pupilRBase.x + current.x;
-  const rcy = pupilRBase.y + current.y;
-
-  pupL.setAttribute('cx', lcx);
-  pupL.setAttribute('cy', lcy);
-  pupR.setAttribute('cx', rcx);
-  pupR.setAttribute('cy', rcy);
-
-  requestAnimationFrame(updatePupils);
-}
-
-updatePupils();
-
-document.addEventListener('mousemove', (ev) => {
-  // get avatar bounding box in screen space
-  const rect = svg.getBoundingClientRect();
-  // convert mouse to local coordinates relative to eyes center
-  const eyesCenterX = rect.left + rect.width * 0.5;
-  const eyesCenterY = rect.top + rect.height * 0.38; // approximate vertical center of eyes
-
-  const dx = ev.clientX - eyesCenterX;
-  const dy = ev.clientY - eyesCenterY;
-
-  // normalize by size and clamp to small radius (max offset 6px)
-  const rx = clamp(dx / rect.width * 40, -6, 6);
-  const ry = clamp(dy / rect.height * 40, -6, 6);
-
-  target.x = rx;
-  target.y = ry;
-});
-
-/* ---------- Subtle head tilt toward cursor horizontally ---------- */
-const hair = document.getElementById('hair');
-const face = document.getElementById('face');
-const avatarCard = document.querySelector('.avatar-card');
-
-document.addEventListener('mousemove', (e) => {
-  const rect = avatarWrap.getBoundingClientRect();
-  const cx = rect.left + rect.width / 2;
-  const pct = (e.clientX - cx) / rect.width; // -0.5 .. 0.5
-  const tilt = clamp(pct * 12, -6, 6);
-  avatarCard.style.transform = `translateY(${ -6 + Math.abs(tilt/6) }px) rotate(${ tilt }deg)`;
-});
-
-/* ---------- Scroll behavior: shrink avatar + show details ---------- */
-const hero = document.getElementById('hero');
-const heroDetails = document.getElementById('heroDetails');
-
-function onScroll() {
-  const heroRect = hero.getBoundingClientRect();
-  const vh = window.innerHeight;
-  const scrolled = Math.min(1, Math.max(0, -(heroRect.top) / (vh * 0.36))); // 0 -> 1
-  const wrap = document.getElementById('avatarWrap');
-
-  if (scrolled >= 0.18) {
-    // apply left-position class for compact layout
-    if (!wrap.classList.contains('avatar-left')) wrap.classList.add('avatar-left');
-    if (!heroDetails.classList.contains('show')) heroDetails.classList.add('show');
-  } else {
-    wrap.classList.remove('avatar-left');
-    heroDetails.classList.remove('show');
-  }
-
-  // reveal sections
-  document.querySelectorAll('section').forEach(section => {
-    const r = section.getBoundingClientRect();
-    if (r.top < window.innerHeight * 0.82) section.classList.add('visible');
-  });
-}
-window.addEventListener('scroll', onScroll);
-onScroll();
-
-/* ---------- Optional: small welcoming wave animation on first load ---------- */
-(function initialWave(){
-  const mouth = document.getElementById('mouth');
-  if (!mouth) return;
-  // animate mouth slightly to create welcoming smile pulse
-  mouth.animate([
-    { transform: 'scaleY(1)' },
-    { transform: 'scaleY(1.08)' },
-    { transform: 'scaleY(1)' }
-  ],{
-    duration: 1200,
-    iterations: 1,
-    easing: 'ease-in-out',
-    delay: 600
-  });
-})();
-
-</script>
+      document.querySelectorAll('.section').forEach(sec => {
+        if (sec.getBoundingClientRect().top < window.innerHeight * 0.85) {
+          sec.classList.add('visible');
+        }
+      });
+    });
+  </script>
 </body>
 </html>
