@@ -41,6 +41,7 @@ const Portfolio = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
+      <CustomCursor />
       <Header activeSection={activeSection} />
       
       <main className="portfolio-main">
