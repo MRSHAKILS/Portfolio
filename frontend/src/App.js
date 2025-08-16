@@ -3,6 +3,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Portfolio from "./components/Portfolio";
 import Preloader from "./components/Preloader";
+import { Toaster } from "./components/ui/toaster";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -25,6 +26,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Portfolio />} />
           </Routes>
+          <Toaster />
         </BrowserRouter>
       )}
     </div>
