@@ -124,35 +124,11 @@ const Hero = () => {
             animate={{ opacity: 1, scale: 1, rotateY: 0 }}
             transition={{ delay: 0.3, duration: 1.2, ease: "easeOut" }}
           >
-            <div className="avatar-container">
-              <motion.div
-                className="avatar-glow"
-                animate={{
-                  scale: [1, 1.1, 1],
-                  opacity: [0.5, 0.8, 0.5]
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-              <motion.img
-                src={hero.avatar}
-                alt={hero.name}
-                className="avatar-image"
-                whileHover={{ 
-                  rotateY: 10,
-                  scale: 1.05
-                }}
-                transition={{ type: "spring", stiffness: 300 }}
-                onError={(e) => {
-                  // Fallback to placeholder if Ready Player Me avatar fails to load
-                  e.target.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face&q=80";
-                }}
-              />
-              <div className="avatar-ring" />
-            </div>
+            <InteractiveAvatar
+              src={hero.avatar}
+              alt={hero.name}
+              className="avatar-container"
+            />
           </motion.div>
         </div>
 
