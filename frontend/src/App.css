@@ -59,11 +59,367 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   scroll-behavior: smooth;
+  cursor: none; /* Hide default cursor for custom cursor */
 }
 
 .App {
   min-height: 100vh;
   position: relative;
+}
+
+/* ============ CUSTOM CURSOR ============ */
+.custom-cursor {
+  position: fixed;
+  width: 16px;
+  height: 16px;
+  background: var(--color-accent-primary);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+}
+
+.cursor-trail {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: rgba(0, 212, 255, 0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* ============ INTERACTIVE AVATAR ============ */
+.interactive-avatar-container {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-wrapper {
+  position: relative;
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+
+.avatar-wrapper .avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid var(--color-accent-primary);
+}
+
+.eye-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.eye {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: rgba(0, 212, 255, 0.8);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--color-accent-primary);
+}
+
+.left-eye {
+  top: 35%;
+  left: 40%;
+}
+
+.right-eye {
+  top: 35%;
+  right: 40%;
+}
+
+.avatar-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.floating-particle {
+  position: absolute;
+  background: var(--color-accent-primary);
+  border-radius: 50%;
+  filter: blur(1px);
+}
+
+/* ============ FLOATING ELEMENTS ============ */
+.floating-element {
+  position: absolute;
+  background: var(--color-accent-primary);
+  border-radius: 50%;
+  filter: blur(1px);
+}
+
+/* ============ ENHANCED INTERACTIVE ELEMENTS ============ */
+.interactive {
+  cursor: none;
+  transition: var(--transition-smooth);
+}
+
+.project-card,
+.skill-card,
+.achievement-card,
+.info-card,
+.job-card,
+.about-card {
+  cursor: none;
+  transition: var(--transition-smooth);
+  transform: var(--transform-card);
+}
+
+.project-card:hover,
+.skill-card:hover,
+.achievement-card:hover,
+.info-card:hover,
+.job-card:hover,
+.about-card:hover {
+  transform: var(--transform-hover);
+  box-shadow: var(--shadow-card);
+}
+
+/* Enhanced button interactions */
+button,
+.hero-btn,
+.nav-item,
+.skill-tab,
+.social-link,
+.social-button {
+  cursor: none;
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+button::before,
+.hero-btn::before,
+.nav-item::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.3) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  transition: all 0.5s ease;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+button:hover::before,
+.hero-btn:hover::before,
+.nav-item:hover::before {
+  width: 200px;
+  height: 200px;
+}
+
+/* Enhanced skill cards with magnetic effect */
+.skill-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.skill-card::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--color-accent-primary), transparent, var(--color-accent-primary));
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.skill-card:hover::before {
+  opacity: 1;
+}
+
+/* Glitch effect for titles */
+@keyframes glitch {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-2px); }
+  40% { transform: translateX(2px); }
+  60% { transform: translateX(-1px); }
+  80% { transform: translateX(1px); }
+}
+
+.section-title:hover {
+  animation: glitch 0.3s ease-in-out;
+}
+
+/* Neon glow effect for accent elements */
+.neon-glow {
+  box-shadow: 
+    0 0 5px var(--color-accent-primary),
+    0 0 10px var(--color-accent-primary),
+    0 0 15px var(--color-accent-primary),
+    0 0 20px var(--color-accent-primary);
+}
+
+/* Pulse animation for active elements */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.nav-item.active,
+.skill-tab.active {
+  animation: pulse 2s infinite;
+}
+
+/* Typewriter effect */
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.typewriter {
+  overflow: hidden;
+  border-right: 2px solid var(--color-accent-primary);
+  white-space: nowrap;
+  animation: typewriter 3s steps(40, end), blink-cursor 0.75s step-end infinite;
+}
+
+@keyframes blink-cursor {
+  from, to { border-color: transparent; }
+  50% { border-color: var(--color-accent-primary); }
+}
+
+/* Parallax hover effect for cards */
+.parallax-card {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.parallax-card:hover {
+  transform: rotateX(5deg) rotateY(5deg) translateZ(20px);
+}
+
+/* Magnetic attraction effect */
+.magnetic {
+  transition: transform 0.2s ease-out;
+}
+
+.magnetic:hover {
+  transform: translateZ(20px);
+}
+
+/* Color shifting on scroll */
+@keyframes colorShift {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+.color-shift {
+  animation: colorShift 10s linear infinite;
+}
+
+/* Ripple effect */
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(0, 212, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.ripple:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Matrix rain effect for background */
+.matrix-rain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.matrix-rain::before {
+  content: '01101001 01101110 01110100 01100101 01110010 01100001 01100011 01110100 01101001 01110110 01100101';
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 200%;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 98px,
+    rgba(0, 212, 255, 0.03) 100px
+  );
+  animation: matrix-fall 20s linear infinite;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: rgba(0, 212, 255, 0.1);
+  line-height: 20px;
+  word-spacing: 10px;
+}
+
+@keyframes matrix-fall {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* Holographic effect */
+.holographic {
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(0, 212, 255, 0.1) 50%,
+    transparent 70%
+  );
+  background-size: 200% 200%;
+  animation: hologram 3s ease-in-out infinite;
+}
+
+@keyframes hologram {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Cyberpunk grid */
+.cyber-grid {
+  background-image: 
+    linear-gradient(rgba(0, 212, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  animation: grid-pulse 4s ease-in-out infinite;
+}
+
+@keyframes grid-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
 }
 
 /* ============ PRELOADER STYLES ============ */
