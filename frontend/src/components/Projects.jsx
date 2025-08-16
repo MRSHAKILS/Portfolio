@@ -87,8 +87,13 @@ const Projects = () => {
               {projects.map((project) => (
                 <SwiperSlide key={project.id} className="project-slide">
                   <motion.div
-                    className="project-card"
-                    whileHover={{ y: -10 }}
+                    className="project-card interactive parallax-card holographic"
+                    whileHover={{ 
+                      y: -10,
+                      rotateX: 5,
+                      rotateY: 5,
+                      scale: 1.02
+                    }}
                     transition={{ duration: 0.3 }}
                   >
                     <div className="project-image">
