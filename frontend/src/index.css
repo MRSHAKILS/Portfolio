@@ -84,3 +84,10 @@ code {
     @apply bg-background text-foreground;
     }
 }
+
+/* Force hide any Emergent badges */
+#emergent-badge,
+a[href*="emergent.sh"],
+a[href*="emergent-badge"] {
+    display: none !important;
+}
