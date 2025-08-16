@@ -9,6 +9,7 @@ import Projects from './Projects';
 import Achievements from './Achievements';
 import Contact from './Contact';
 import Footer from './Footer';
+import CustomCursor from './CustomCursor';
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('home');
