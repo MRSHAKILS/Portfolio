@@ -22,6 +22,7 @@ const Hero = () => {
         <div className="hero-content">
           <motion.div
             className="hero-text"
+            style={{ y: textY }}
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
