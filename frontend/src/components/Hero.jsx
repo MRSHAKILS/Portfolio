@@ -1,8 +1,10 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ChevronDown, Github, Linkedin, Mail, Download } from 'lucide-react';
 import { Button } from './ui/button';
 import { portfolioData } from '../data/mockData';
+import InteractiveAvatar from './InteractiveAvatar';
+import ParallaxSection from './ParallaxSection';
 
 const Hero = () => {
   const { hero } = portfolioData;
