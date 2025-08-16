@@ -149,14 +149,18 @@ const Hero = () => {
         </motion.div>
 
         {/* Background Elements */}
-        <div className="hero-bg">
-          <div className="hero-grid" />
+        <ParallaxSection className="hero-bg" offset={-50}>
+          <motion.div 
+            className="hero-grid"
+            style={{ y: backgroundY }}
+          />
           <motion.div
             className="hero-orb orb-1"
             animate={{
               x: [0, 100, 0],
               y: [0, -50, 0],
-              scale: [1, 1.2, 1]
+              scale: [1, 1.2, 1],
+              rotate: [0, 180, 360]
             }}
             transition={{
               duration: 20,
@@ -169,7 +173,8 @@ const Hero = () => {
             animate={{
               x: [0, -80, 0],
               y: [0, 60, 0],
-              scale: [1, 0.8, 1]
+              scale: [1, 0.8, 1],
+              rotate: [360, 180, 0]
             }}
             transition={{
               duration: 15,
@@ -177,7 +182,38 @@ const Hero = () => {
               ease: "linear"
             }}
           />
-        </div>
+          
+          {/* Interactive floating elements */}
+          {[...Array(12)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="floating-element"
+              animate={{
+                y: [0, -30 - i * 5, 0],
+                x: [0, Math.sin(i) * 20, 0],
+                rotate: [0, 180, 360],
+                opacity: [0.2, 0.6, 0.2]
+              }}
+              transition={{
+                duration: 8 + i * 2,
+                repeat: Infinity,
+                delay: i * 0.5,
+                ease: "easeInOut"
+              }}
+              style={{
+                position: 'absolute',
+                top: `${10 + (i % 4) * 20}%`,
+                left: `${5 + (i % 6) * 15}%`,
+                width: `${4 + (i % 3)}px`,
+                height: `${4 + (i % 3)}px`,
+                background: i % 2 === 0 ? 'var(--color-accent-primary)' : 'rgba(255, 255, 255, 0.3)',
+                borderRadius: '50%',
+                filter: 'blur(1px)',
+                zIndex: -1
+              }}
+            />
+          ))}
+        </ParallaxSection>
       </div>
     </section>
   );
