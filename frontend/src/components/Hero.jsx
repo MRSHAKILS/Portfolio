@@ -8,6 +8,9 @@ import ParallaxSection from './ParallaxSection';
 
 const Hero = () => {
   const { hero } = portfolioData;
+  const { scrollY } = useScroll();
+  const backgroundY = useTransform(scrollY, [0, 500], [0, 150]);
+  const textY = useTransform(scrollY, [0, 500], [0, 100]);
 
   const scrollToNext = () => {
     document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
