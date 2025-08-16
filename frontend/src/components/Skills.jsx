@@ -94,7 +94,7 @@ const Skills = () => {
                 ?.data.map((skill, index) => (
                   <motion.div
                     key={`${activeCategory}-${skill.name}`}
-                    className="skill-card"
+                    className="skill-card interactive magnetic ripple"
                     variants={skillVariants}
                     initial="hidden"
                     animate="visible"
@@ -102,6 +102,8 @@ const Skills = () => {
                     transition={{ delay: index * 0.1 }}
                     whileHover={{ 
                       y: -5,
+                      scale: 1.02,
+                      rotateY: 5,
                       transition: { duration: 0.2 }
                     }}
                   >
