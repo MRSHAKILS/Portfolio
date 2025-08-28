@@ -185,24 +185,77 @@ Ensure you have the following installed:
 
 ### 🏃‍♂️ Running the Application
 
+#### 🚀 Quick Start (Recommended)
+
+1. **Install all dependencies:**
+
+   ```bash
+   npm run install:all
+   ```
+
+2. **Run both frontend and backend together:**
+   ```bash
+   npm run dev
+   ```
+
+#### 🔧 Manual Start (Alternative)
+
 1. **Start the Backend Server**
+
+   ```bash
+   npm run dev:backend
+   ```
+
+   Or manually:
 
    ```bash
    cd backend
    python -m uvicorn server:app --reload --host 0.0.0.0 --port 8000
    ```
 
-2. **Start the Frontend Development Server**
+2. **Start the Frontend Development Server** (in another terminal)
+
+   ```bash
+   npm run dev:frontend
+   ```
+
+   Or manually:
 
    ```bash
    cd frontend
    npm start
    ```
 
-3. **Access the Application**
-   - **Frontend**: http://localhost:3000
-   - **Backend API**: http://localhost:8000
-   - **API Documentation**: http://localhost:8000/docs
+#### 🌐 Access the Application
+
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:8000
+- **API Documentation**: http://localhost:8000/docs
+
+#### 🐛 Troubleshooting
+
+If you encounter issues:
+
+1. **Frontend dependency conflicts:**
+
+   ```bash
+   cd frontend
+   rm -rf node_modules package-lock.json
+   npm install --legacy-peer-deps
+   ```
+
+2. **Backend dependencies:**
+
+   ```bash
+   cd backend
+   pip install -r requirements.txt
+   ```
+
+3. **Clean and reinstall everything:**
+   ```bash
+   npm run clean
+   npm run install:all
+   ```
 
 ---
 
