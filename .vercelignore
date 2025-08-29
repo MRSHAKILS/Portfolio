@@ -1,0 +1,16 @@
+backend/
+tests/
+node_modules/
+.git/
+*.pyc
+__pycache__/
+.pytest_cache/
+.env
+.DS_Store
+yarn.lock
+README.md
+CONTRIBUTING.md
+DEPLOYMENT.md
+setup.bat
+setup.sh
+test_result.md
