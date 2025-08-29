@@ -9,10 +9,11 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![TailwindCSS](https://img.shields.io/badge/Tailwind-3.4.17-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-4.5.0-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://portfolio-r1ggt98f6-mrshakils-projects.vercel.app/)
 
 **A modern, responsive portfolio application built with cutting-edge technologies**
 
-[🌟 Live Demo](http://localhost:3001) | [📖 Documentation](#documentation) | [🚀 Getting Started](#getting-started)
+[🌟 Live Demo](https://portfolio-r1ggt98f6-mrshakils-projects.vercel.app/) | [📖 Documentation](#documentation) | [🚀 Getting Started](#getting-started)
 
 </div>
 
@@ -64,7 +65,8 @@
 - **🎨 Modern UI/UX**: Beautiful, dark-themed interface with smooth animations
 - **📱 Fully Responsive**: Optimized for desktop, tablet, and mobile devices
 - **⚡ Fast Performance**: Server-side rendering and optimized bundle sizes
-- **🔒 Secure**: JWT authentication and secure API endpoints
+- **� Live Deployment**: Successfully deployed and accessible on Vercel
+- **�🔒 Secure**: JWT authentication and secure API endpoints
 - **🎭 Interactive**: Smooth animations with Framer Motion
 - **🧩 Component Library**: Built with Radix UI components
 - **📊 Analytics Ready**: Easy integration with analytics platforms
@@ -365,7 +367,13 @@ npm test
 
 ## 🚀 Deployment
 
-### 📦 Build for Production
+### 🌟 **Live Application**
+
+✅ **Frontend is deployed and live on Vercel!**
+
+� **Live Demo**: [https://portfolio-r1ggt98f6-mrshakils-projects.vercel.app/](https://portfolio-r1ggt98f6-mrshakils-projects.vercel.app/)
+
+### �📦 Build for Production
 
 **Frontend:**
 
@@ -374,7 +382,14 @@ cd frontend
 npm run build
 ```
 
-**Backend:**
+**Vercel Deployment:**
+
+```bash
+# Automatic deployment on push to main branch
+npm run vercel-build
+```
+
+**Backend (Local Development):**
 
 ```bash
 cd backend
@@ -382,11 +397,18 @@ pip install -r requirements.txt
 python -m uvicorn server:app --host 0.0.0.0 --port 8000
 ```
 
-### 🌐 Deployment Options
+### 🌐 Deployment Status
 
-- **Frontend**: Vercel, Netlify, GitHub Pages
-- **Backend**: Railway, Heroku, DigitalOcean
-- **Database**: MongoDB Atlas, Railway MongoDB
+- ✅ **Frontend**: Successfully deployed on [Vercel](https://vercel.com/)
+- ⏳ **Backend**: Available for local development (can be deployed separately on Railway, Heroku, etc.)
+- ⏳ **Database**: MongoDB Atlas integration ready
+
+### 🔧 Deployment Configuration
+
+The project includes:
+- `vercel.json` - Vercel deployment configuration
+- `.vercelignore` - Files excluded from deployment
+- Optimized build process with `--legacy-peer-deps` support
 
 ---
 
