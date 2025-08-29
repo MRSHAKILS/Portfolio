@@ -406,7 +406,6 @@ python -m uvicorn server:app --host 0.0.0.0 --port 8000
 ### 🔧 Deployment Configuration
 
 The project includes:
-
 - `vercel.json` - Vercel deployment configuration
 - `.vercelignore` - Files excluded from deployment
 - Optimized build process with `--legacy-peer-deps` support
