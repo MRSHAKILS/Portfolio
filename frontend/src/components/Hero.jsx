@@ -5,6 +5,9 @@ import { Button } from './ui/button';
 import { portfolioData } from '../data/mockData';
 import InteractiveAvatar from './InteractiveAvatar';
 import ParallaxSection from './ParallaxSection';
+import { AnimatedGradientText } from './ui/animated-gradient-text';
+import { MagneticButton } from './ui/magnetic-button';
+import { TypingAnimation } from './ui/typing-animation';
 
 const Hero = () => {
   const { hero } = portfolioData;
@@ -34,7 +37,12 @@ const Hero = () => {
               transition={{ delay: 0.2, duration: 0.8 }}
             >
               Hi, I'm{' '}
-              <span className="hero-name">{hero.name}</span>
+              <AnimatedGradientText 
+                className="hero-name"
+                colors={['#667eea', '#764ba2', '#f093fb', '#4facfe']}
+              >
+                {hero.name}
+              </AnimatedGradientText>
             </motion.h1>
             
             <motion.h2 
@@ -43,7 +51,7 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
             >
-              {hero.title}
+              <TypingAnimation text={hero.title} duration={100} />
             </motion.h2>
             
             <motion.p 
@@ -61,22 +69,26 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.8 }}
             >
-              <Button 
-                className="hero-btn primary"
-                onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
-              >
-                Get In Touch
-                <Mail className="btn-icon" />
-              </Button>
+              <MagneticButton strength={0.2}>
+                <Button 
+                  className="hero-btn primary"
+                  onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
+                >
+                  Get In Touch
+                  <Mail className="btn-icon" />
+                </Button>
+              </MagneticButton>
               
-              <Button 
-                variant="outline" 
-                className="hero-btn secondary"
-                onClick={() => window.open('/resume.pdf', '_blank')}
-              >
-                Download CV
-                <Download className="btn-icon" />
-              </Button>
+              <MagneticButton strength={0.2}>
+                <Button 
+                  variant="outline" 
+                  className="hero-btn secondary"
+                  onClick={() => window.open('/resume.pdf', '_blank')}
+                >
+                  Download CV
+                  <Download className="btn-icon" />
+                </Button>
+              </MagneticButton>
             </motion.div>
 
             <motion.div 
