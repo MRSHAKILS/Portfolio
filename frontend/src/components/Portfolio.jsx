@@ -10,6 +10,7 @@ import Achievements from './Achievements';
 import Contact from './Contact';
 import Footer from './Footer';
 import CustomCursor from './CustomCursor';
+import { ScrollProgress } from './ui/scroll-progress';
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -41,6 +42,7 @@ const Portfolio = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
+      <ScrollProgress />
       <CustomCursor />
       <Header activeSection={activeSection} />
       

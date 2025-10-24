@@ -3,7 +3,7 @@ export const portfolioData = {
     name: "Shakil Ahmed",
     title: "Full Stack Developer",
     subtitle: "Crafting digital experiences with modern technology",
-    avatar: "https://portfolio-veciuv.readyplayer.me/avatar",
+    avatar: "https://models.readyplayer.me/675ad4c8ce4e8f0dd93c0f6e.png?scene=fullbody-portrait-v1&quality=high",
     description: "Passionate full-stack developer with expertise in both frontend and backend technologies. I love creating seamless, scalable applications that solve real-world problems."
   },
 

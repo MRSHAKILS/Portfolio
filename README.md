@@ -28,17 +28,20 @@ A modern, responsive portfolio website built with React and Tailwind CSS.
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/MRSHAKILS/Portfolio.git
 cd Portfolio
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Start the development server:
+
 ```bash
 npm start
 ```
@@ -66,7 +69,7 @@ All portfolio content is stored in a single file for easy editing:
 ```javascript
 export const portfolioData = {
   hero: {
-    name: "Your Name",  // Change this
+    name: "Your Name", // Change this
     title: "Your Title", // Change this
     // ...
   },
@@ -91,6 +94,7 @@ This portfolio is configured for easy deployment to Vercel:
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/MRSHAKILS/Portfolio)
 
 Or manually:
+
 1. Push your code to GitHub
 2. Import your repository to Vercel
 3. Deploy! 🎉
@@ -102,6 +106,7 @@ MIT License - feel free to use this for your own portfolio!
 ## 👤 Author
 
 **Shakil Ahmed**
+
 - GitHub: [@MRSHAKILS](https://github.com/MRSHAKILS)
 - LinkedIn: [shakil-ahmed-cs](https://www.linkedin.com/in/shakil-ahmed-cs/)
 
