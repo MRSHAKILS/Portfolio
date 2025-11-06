@@ -2130,3 +2130,44 @@ button:hover::before,
   background: rgba(0, 212, 255, 0.3);
   color: var(--color-text-primary);
 }
+
+/* ========================= */
+/* Cursor restore overrides  */
+/* Remove custom cursor setup*/
+/* ========================= */
+/* Restore default cursor across the app when custom cursor is not used */
+body,
+*,
+.interactive,
+.project-card,
+.skill-card,
+.achievement-card,
+.info-card,
+.job-card,
+.about-card,
+button,
+.hero-btn,
+.nav-item,
+.skill-tab,
+.social-link,
+.social-button {
+  cursor: auto !important;
+}
+
+/* Ensure pointer for clickable UI elements */
+a,
+button,
+label[for],
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+select,
+.nav-item,
+.overlay-btn,
+.project-btn,
+.skill-tab,
+.social-link,
+.social-button,
+.scroll-indicator {
+  cursor: pointer !important;
+}

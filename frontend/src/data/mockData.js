@@ -3,7 +3,8 @@ export const portfolioData = {
     name: "Shakil Ahmed",
     title: "Full Stack Developer",
     subtitle: "Crafting digital experiences with modern technology",
-    avatar: "https://models.readyplayer.me/675ad4c8ce4e8f0dd93c0f6e.png?scene=fullbody-portrait-v1&quality=high",
+    // Replace with your photo: Put your photo in frontend/public/images/profile.jpg
+    avatar: "/images/profile.jpg", // or keep the ReadyPlayerMe URL if you prefer
     description: "Passionate full-stack developer with expertise in both frontend and backend technologies. I love creating seamless, scalable applications that solve real-world problems."
   },
 
@@ -97,7 +98,8 @@ export const portfolioData = {
       id: 1,
       title: "E-Commerce Platform",
       description: "A full-stack e-commerce solution with real-time inventory, payment processing, and admin dashboard.",
-      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80",
+      // Replace with your project screenshot: frontend/public/images/project1.jpg
+      image: "/images/project1.jpg", // or use external URL like "https://..."
       technologies: ["React", "Node.js", "MongoDB", "Stripe", "Socket.io"],
       features: [
         "Real-time inventory updates",
@@ -113,7 +115,7 @@ export const portfolioData = {
       id: 2,
       title: "Task Management System",
       description: "Collaborative project management tool with real-time updates, team collaboration, and advanced reporting.",
-      image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&q=80",
+      image: "/images/project2.jpg", // Add your project2 screenshot here
       technologies: ["React", "Python", "FastAPI", "PostgreSQL", "WebSocket"],
       features: [
         "Real-time collaboration",
@@ -129,7 +131,7 @@ export const portfolioData = {
       id: 3,
       title: "Weather Analytics Dashboard",
       description: "Data visualization platform for weather patterns with machine learning predictions and interactive charts.",
-      image: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=800&q=80",
+      image: "/images/project3.jpg", // Add your project3 screenshot here
       technologies: ["React", "Python", "TensorFlow", "D3.js", "Redis"],
       features: [
         "ML-powered predictions",
