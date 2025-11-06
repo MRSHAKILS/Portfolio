@@ -34,10 +34,10 @@
   },
   "homepage": "https://github.com/MRSHAKILS/Portfolio#readme",
   "engines": {
-    "node": "18.x",
-    "npm": ">=8.0.0"
+    "node": "22.x",
+    "npm": ">=10.0.0"
   },
-  "packageManager": "npm@9.0.0",
+  "packageManager": "npm@10.0.0",
   "devDependencies": {
     "ajv": "^8.11.0"
   },
